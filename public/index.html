@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kerwin Mok | Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="bg-orb orb-a" aria-hidden="true"></div>
+    <div class="bg-orb orb-b" aria-hidden="true"></div>
+
+    <header class="top-nav">
+        <a href="#about">about me</a>
+        <a href="#projects">projects</a>
+        <a href="#experience">experience</a>
+        <a href="#photos">photos</a>
+    </header>
+
+    <main class="layout">
+        <aside class="photo-stage" aria-label="Photo stage">
+            <img id="stage-image" src="assets/photos/FrontPage.jpg" alt="Featured landscape" />
+            <div id="image-placeholder" class="image-placeholder">
+                insert in resource folders: public/assets/photos/FrontPage.jpg
+            </div>
+            <div class="photo-meta">
+                <p class="meta-kicker">sony a6700 landscapes</p>
+                <p id="photo-filename">FrontPage.jpg</p>
+            </div>
+        </aside>
+
+        <section class="story">
+            <section id="about" class="panel is-active" data-image="AboutMe.jpg">
+                <p class="panel-tag">about me</p>
+                <h1>Hi, I am Kerwin. I build software and capture landscapes.</h1>
+                <p>
+                    This page is designed to flow as you scroll: each section smoothly transitions
+                    text while the featured image changes in sync.
+                </p>
+                <p>
+                    Replace each placeholder file in the photo folder with your real image using
+                    the same filename and it appears automatically.
+                </p>
+            </section>
+
+            <section id="projects" class="panel" data-image="Projects.jpg">
+                <p class="panel-tag">projects</p>
+                <h2>Selected work</h2>
+                <div class="card-grid">
+                    <article class="card">
+                        <h3>project one</h3>
+                        <p>One-line summary of a project impact, tech stack, and result.</p>
+                    </article>
+                    <article class="card">
+                        <h3>project two</h3>
+                        <p>Highlight a backend or full stack build with measurable outcomes.</p>
+                    </article>
+                    <article class="card">
+                        <h3>project three</h3>
+                        <p>Add links later by editing this section in public/index.html.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="experience" class="panel" data-image="Experience.jpg">
+                <p class="panel-tag">experience</p>
+                <h2>Experience</h2>
+                <ul class="timeline">
+                    <li>
+                        <span>2025 - now</span>
+                        <strong>role title</strong>
+                        <p>Describe ownership, scale, and outcomes in 2 lines.</p>
+                    </li>
+                    <li>
+                        <span>2023 - 2025</span>
+                        <strong>role title</strong>
+                        <p>Include collaboration, architecture, and reliability achievements.</p>
+                    </li>
+                    <li>
+                        <span>2021 - 2023</span>
+                        <strong>role title</strong>
+                        <p>Add internship, freelance, or student leadership highlights.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="photos" class="panel" data-image="Photos.jpg">
+                <p class="panel-tag">photos</p>
+                <h2>Photo collection</h2>
+                <p>
+                    Put your images in public/assets/photos with these names:
+                    FrontPage.jpg, AboutMe.jpg, Projects.jpg, Experience.jpg, Photos.jpg.
+                </p>
+                <p>
+                    The layout auto-crops with object-fit: cover so near-miss dimensions still fill cleanly.
+                </p>
+            </section>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

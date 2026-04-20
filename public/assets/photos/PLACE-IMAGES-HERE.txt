@@ -1,0 +1,10 @@
+insert in resource folders: public/assets/photos/
+
+Use these exact filenames so sections auto-load the right image:
+- FrontPage.jpg
+- AboutMe.jpg
+- Projects.jpg
+- Experience.jpg
+- Photos.jpg
+
+You can use .jpeg or .webp too, but then update names in public/index.html data-image values.
