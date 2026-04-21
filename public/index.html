@@ -35,6 +35,10 @@
             background: radial-gradient(circle at 15% 0%, rgba(235, 227, 213, 0.7), transparent 40%), var(--bg);
         }
 
+        main {
+            background: linear-gradient(to bottom, rgba(245, 245, 239, 0), rgba(245, 245, 239, 0.94) 7%, rgba(245, 245, 239, 1) 100%);
+        }
+
         h1,
         h2,
         h3 {
@@ -154,8 +158,12 @@
 
         .content-section {
             padding: clamp(2rem, 5vw, 4rem) clamp(1.2rem, 6vw, 5rem) clamp(2.8rem, 7vw, 5rem);
-            background: var(--surface);
-            border-bottom: 1px solid var(--line);
+            background: transparent;
+            border-bottom: none;
+        }
+
+        .content-section + .content-section {
+            padding-top: clamp(1.2rem, 3.2vw, 2.1rem);
         }
 
         .content-section h2 {

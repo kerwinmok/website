@@ -72,19 +72,42 @@ function applyHeroFallbackIfMissing() {
     heroImage.src = 'assets/photos/AboutMe.jpg';
 }
 
-const sectionObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                setCurrentSection(entry.target.id);
-            }
-        });
-    },
-    {
-        threshold: 0.55,
-        rootMargin: '-8% 0px -8% 0px'
+function updateCurrentSectionByScroll() {
+    if (!sections.length) {
+        return;
     }
-);
+
+    const markerY = window.innerHeight * 0.38;
+    let closestSection = sections[0];
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const sectionCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(sectionCenter - markerY);
+
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestSection = section;
+        }
+    });
+
+    setCurrentSection(closestSection.id);
+}
+
+let isTicking = false;
+
+function requestSectionUpdate() {
+    if (isTicking) {
+        return;
+    }
+
+    isTicking = true;
+    requestAnimationFrame(() => {
+        updateCurrentSectionByScroll();
+        isTicking = false;
+    });
+}
 
 const revealObserver = new IntersectionObserver(
     (entries, observer) => {
@@ -101,13 +124,16 @@ const revealObserver = new IntersectionObserver(
 );
 
 if ('IntersectionObserver' in window) {
-    sections.forEach((section) => sectionObserver.observe(section));
     revealItems.forEach((item) => revealObserver.observe(item));
 } else {
     // Older browsers get immediate visibility and no scroll-tracking effects.
     revealItems.forEach((item) => item.classList.add('is-visible'));
 }
 
+window.addEventListener('scroll', requestSectionUpdate, { passive: true });
+window.addEventListener('resize', requestSectionUpdate);
+
 setCurrentSection('about');
+updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
