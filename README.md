@@ -13,6 +13,18 @@ Image filenames are mapped so you can drop your Sony a6700 photos into the folde
 
 ## quick start (local)
 
+### option 1: open as a plain html site (no server, fastest)
+
+From repo root, run:
+
+```powershell
+.\scripts\open-static.ps1
+```
+
+This opens `public/index.html` directly in your default browser.
+
+### option 2: run java server (only when needed)
+
 1. Ensure Java (JDK 17+ recommended) is installed.
 2. From repo root, run:
 
@@ -21,6 +33,8 @@ Image filenames are mapped so you can drop your Sony a6700 photos into the folde
 ```
 
 3. Open `http://localhost:8080`.
+
+Use this option if you later add API calls, routing, or anything that requires HTTP.
 
 ## photo workflow
 
@@ -118,3 +132,23 @@ This keeps the stage full and clean even when source photos have slightly differ
 ## deploy later
 
 When you are ready for a domain, this repo can be containerized or moved to any VM/PaaS that supports running a Java process.
+
+## deploy now with github pages (free)
+
+This project is already configured to deploy the `public/` folder to GitHub Pages using GitHub Actions.
+
+### first-time setup
+
+1. Push this repository to GitHub.
+2. In GitHub, go to **Settings > Pages**.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+4. Commit and push changes to `main`.
+5. Wait for the workflow to finish under the **Actions** tab.
+
+Your live URL will be:
+
+- `https://kerwinmok.github.io/website/`
+
+### optional custom domain later
+
+When you buy a domain, add it in **Settings > Pages > Custom domain** and configure DNS at your registrar.
