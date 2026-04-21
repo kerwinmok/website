@@ -1,6 +1,5 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -49,9 +48,12 @@ public class ResumeServer {
             }
 
             String rawPath = exchange.getRequestURI().getPath();
-            String safePath = (rawPath == null || rawPath.isBlank() || "/".equals(rawPath))
-                ? "index.html"
-                : rawPath.substring(1);
+            String safePath;
+            if (rawPath == null || rawPath.isBlank() || "/".equals(rawPath)) {
+                safePath = "index.html";
+            } else {
+                safePath = rawPath.substring(1);
+            }
 
             Path requested = publicDir.resolve(safePath).normalize();
 
