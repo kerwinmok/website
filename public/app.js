@@ -28,6 +28,17 @@ function setCurrentSection(sectionId) {
     });
 }
 
+function syncUrlHash(sectionId) {
+    const nextHash = `#${sectionId}`;
+
+    if (window.location.hash === nextHash) {
+        return;
+    }
+
+    // Keep URL aligned to the visible section without adding history entries on every scroll tick.
+    history.replaceState(null, '', nextHash);
+}
+
 function createAlbumItem(fileName) {
     const item = document.createElement('figure');
     item.className = 'album-item';
@@ -93,6 +104,7 @@ function updateCurrentSectionByScroll() {
     });
 
     setCurrentSection(closestSection.id);
+    syncUrlHash(closestSection.id);
 }
 
 let isTicking = false;
@@ -107,6 +119,73 @@ function requestSectionUpdate() {
         updateCurrentSectionByScroll();
         isTicking = false;
     });
+}
+
+function enableFloatyWheelScroll() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+    if (prefersReducedMotion || !hasFinePointer) {
+        return;
+    }
+
+    let targetY = window.scrollY;
+    let currentY = window.scrollY;
+    let animationId = 0;
+
+    const easing = 0.12;
+    const intensity = 0.9;
+    const stopThreshold = 0.45;
+
+    function clampTarget(nextValue) {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        return Math.min(Math.max(nextValue, 0), Math.max(maxScroll, 0));
+    }
+
+    function animateScroll() {
+        currentY += (targetY - currentY) * easing;
+
+        if (Math.abs(targetY - currentY) <= stopThreshold) {
+            currentY = targetY;
+        }
+
+        window.scrollTo(0, currentY);
+
+        if (currentY !== targetY) {
+            animationId = requestAnimationFrame(animateScroll);
+            return;
+        }
+
+        animationId = 0;
+    }
+
+    window.addEventListener(
+        'wheel',
+        (event) => {
+            if (event.ctrlKey) {
+                return;
+            }
+
+            event.preventDefault();
+            targetY = clampTarget(targetY + event.deltaY * intensity);
+
+            if (!animationId) {
+                animationId = requestAnimationFrame(animateScroll);
+            }
+        },
+        { passive: false }
+    );
+
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!animationId) {
+                currentY = window.scrollY;
+                targetY = currentY;
+            }
+        },
+        { passive: true }
+    );
 }
 
 const revealObserver = new IntersectionObserver(
@@ -132,8 +211,12 @@ if ('IntersectionObserver' in window) {
 
 window.addEventListener('scroll', requestSectionUpdate, { passive: true });
 window.addEventListener('resize', requestSectionUpdate);
+enableFloatyWheelScroll();
 
-setCurrentSection('about');
+const initialSectionId = (window.location.hash || '').replace('#', '');
+const hasInitialSection = sections.some((section) => section.id === initialSectionId);
+
+setCurrentSection(hasInitialSection ? initialSectionId : 'about');
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
