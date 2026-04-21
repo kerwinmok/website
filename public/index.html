@@ -204,6 +204,21 @@
             line-height: 1.62;
         }
 
+        .project-link {
+            display: inline-block;
+            margin-top: 0.8rem;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: lowercase;
+            color: #1c365a;
+            border-bottom: 1px solid rgba(28, 54, 90, 0.35);
+        }
+
+        .project-link:hover {
+            color: #10233f;
+            border-bottom-color: rgba(16, 35, 63, 0.65);
+        }
+
         .timeline {
             list-style: none;
             padding: 0;
@@ -474,10 +489,10 @@
         <section id="about" class="section about-hero reveal">
             <div class="hero-copy">
                 <p class="kicker">about me</p>
-                <h1>I build software and frame stories through landscape photography.</h1>
+                <h1>3rd year SFU Computer Science Student.</h1>
                 <p>
-                    I am Kerwin. I enjoy creating practical software, learning fast, and staying focused on quality.
-                    Outside of coding, I shoot landscape photos and bring that same visual precision into my projects.
+                    I am Kerwin. I enjoy creating software.
+                    Outside of coding I like photography and riding my motorcycle.
                 </p>
             </div>
         </section>
@@ -485,29 +500,32 @@
         <section id="projects" class="section content-section reveal">
             <h2>projects</h2>
             <p>
-                A few selected builds. You can keep these as starter examples, then replace with your real links and metrics.
+                A few selected builds with links to each repository.
             </p>
             <div class="card-grid">
                 <article class="card">
-                    <h3>resume website</h3>
+                    <h3>rubik's cube solver</h3>
                     <p>
-                        Built a responsive one-page portfolio with smooth section transitions, GitHub Pages deployment,
-                        and a maintainable photo album section.
+                        Java cube solver that reads a cube state from a text file and searches for a valid solution path
+                        using IDA* with multiple pruning heuristics.
                     </p>
+                    <a class="project-link" href="https://github.com/kerwinmok/rubikscube-solver" target="_blank" rel="noopener noreferrer">view repository</a>
                 </article>
                 <article class="card">
-                    <h3>shipping workflow helper</h3>
+                    <h3>calculator app test</h3>
                     <p>
-                        Prototype tool to track courier deadlines, reduce shipping errors, and speed up handoff decisions
-                        during high-volume shifts.
+                        Desktop calculator built with Java Swing featuring arithmetic operations, percentage,
+                        sign toggle, expression display, and input validation.
                     </p>
+                    <a class="project-link" href="https://github.com/kerwinmok/calculator-apptest" target="_blank" rel="noopener noreferrer">view repository</a>
                 </article>
                 <article class="card">
-                    <h3>photo catalog organizer</h3>
+                    <h3>raymond discord bot</h3>
                     <p>
-                        Lightweight script concept for organizing landscape photos by location and date for quicker
-                        portfolio updates and exports.
+                        Discord bot using JDA + LavaPlayer with music commands, per-guild queue management,
+                        and a local web panel to control messaging and runtime.
                     </p>
+                    <a class="project-link" href="https://github.com/kerwinmok/raymond-discord-bot" target="_blank" rel="noopener noreferrer">view repository</a>
                 </article>
             </div>
         </section>
