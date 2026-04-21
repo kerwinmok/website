@@ -3,6 +3,9 @@ const navLinks = Array.from(document.querySelectorAll('.top-nav a'));
 const revealItems = Array.from(document.querySelectorAll('.reveal'));
 const photoAlbum = document.getElementById('photo-album');
 
+document.documentElement.classList.remove('no-js');
+document.documentElement.classList.add('js');
+
 // Add or remove filenames here as your album grows.
 const photoFiles = [
     'FrontPage.jpg',
@@ -58,6 +61,17 @@ function renderPhotoAlbum() {
     });
 }
 
+function applyHeroFallbackIfMissing() {
+    const heroImage = new Image();
+    heroImage.onload = () => {
+        document.body.classList.remove('no-hero-image');
+    };
+    heroImage.onerror = () => {
+        document.body.classList.add('no-hero-image');
+    };
+    heroImage.src = 'assets/photos/AboutMe.jpg';
+}
+
 const sectionObserver = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
@@ -86,7 +100,14 @@ const revealObserver = new IntersectionObserver(
     }
 );
 
-sections.forEach((section) => sectionObserver.observe(section));
-revealItems.forEach((item) => revealObserver.observe(item));
+if ('IntersectionObserver' in window) {
+    sections.forEach((section) => sectionObserver.observe(section));
+    revealItems.forEach((item) => revealObserver.observe(item));
+} else {
+    // Older browsers get immediate visibility and no scroll-tracking effects.
+    revealItems.forEach((item) => item.classList.add('is-visible'));
+}
+
 setCurrentSection('about');
 renderPhotoAlbum();
+applyHeroFallbackIfMissing();

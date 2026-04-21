@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -103,6 +103,12 @@
             z-index: -2;
         }
 
+        .no-hero-image .about-hero::before {
+            background-image: none;
+            background: var(--bg);
+            transform: none;
+        }
+
         .about-hero::after {
             content: "";
             position: absolute;
@@ -116,6 +122,11 @@
         .hero-copy {
             width: min(960px, 100%);
             color: #f7f7f5;
+        }
+
+        .no-hero-image .hero-copy,
+        .no-hero-image .hero-copy p {
+            color: var(--ink);
         }
 
         .kicker {
@@ -267,12 +278,17 @@
         }
 
         .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .js .reveal {
             opacity: 0;
             transform: translateY(28px);
             transition: opacity 500ms ease, transform 500ms ease;
         }
 
-        .reveal.is-visible {
+        .js .reveal.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -319,20 +335,29 @@
         <section id="projects" class="section content-section reveal">
             <h2>projects</h2>
             <p>
-                A few selected builds. Replace this copy with your real projects, impact metrics, and links.
+                A few selected builds. You can keep these as starter examples, then replace with your real links and metrics.
             </p>
             <div class="card-grid">
                 <article class="card">
-                    <h3>project one</h3>
-                    <p>Describe the problem, your stack, and the result in one clear sentence.</p>
+                    <h3>resume website</h3>
+                    <p>
+                        Built a responsive one-page portfolio with smooth section transitions, GitHub Pages deployment,
+                        and a maintainable photo album section.
+                    </p>
                 </article>
                 <article class="card">
-                    <h3>project two</h3>
-                    <p>Call out the hardest technical challenge and what you learned from solving it.</p>
+                    <h3>shipping workflow helper</h3>
+                    <p>
+                        Prototype tool to track courier deadlines, reduce shipping errors, and speed up handoff decisions
+                        during high-volume shifts.
+                    </p>
                 </article>
                 <article class="card">
-                    <h3>project three</h3>
-                    <p>Highlight measurable outcomes like latency, conversion, or productivity improvements.</p>
+                    <h3>photo catalog organizer</h3>
+                    <p>
+                        Lightweight script concept for organizing landscape photos by location and date for quicker
+                        portfolio updates and exports.
+                    </p>
                 </article>
             </div>
         </section>
@@ -374,6 +399,7 @@
             <h2>photos</h2>
             <p>
                 Album section. Add your files in public/assets/photos and then add each filename in public/app.js.
+                Missing files will show a clear placeholder card instead of breaking the layout.
             </p>
             <div id="photo-album" class="album-grid"></div>
             <p class="album-placeholder">
