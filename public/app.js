@@ -1,58 +1,68 @@
-const panels = Array.from(document.querySelectorAll('.panel'));
-const stage = document.querySelector('.photo-stage');
-const stageImage = document.getElementById('stage-image');
-const placeholder = document.getElementById('image-placeholder');
-const filenameLabel = document.getElementById('photo-filename');
+const sections = Array.from(document.querySelectorAll('.section'));
+const navLinks = Array.from(document.querySelectorAll('.top-nav a'));
+const revealItems = Array.from(document.querySelectorAll('.reveal'));
+const photoAlbum = document.getElementById('photo-album');
 
-function showPlaceholder(message) {
-    placeholder.textContent = message;
-    placeholder.classList.add('visible');
+// Add or remove filenames here as your album grows.
+const photoFiles = [
+    'FrontPage.jpg',
+    'AboutMe.jpg',
+    'Projects.jpg',
+    'Experience.jpg',
+    'Photos.jpg'
+];
+
+function setCurrentSection(sectionId) {
+    navLinks.forEach((link) => {
+        const isCurrent = link.getAttribute('href') === `#${sectionId}`;
+        link.classList.toggle('is-current', isCurrent);
+
+        if (isCurrent) {
+            link.setAttribute('aria-current', 'true');
+        } else {
+            link.removeAttribute('aria-current');
+        }
+    });
 }
 
-function hidePlaceholder() {
-    placeholder.classList.remove('visible');
+function createAlbumItem(fileName) {
+    const item = document.createElement('figure');
+    item.className = 'album-item';
+
+    const image = document.createElement('img');
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.src = `assets/photos/${fileName}`;
+    image.alt = fileName;
+
+    const caption = document.createElement('figcaption');
+    caption.textContent = fileName;
+
+    image.addEventListener('error', () => {
+        item.classList.add('album-placeholder');
+        image.remove();
+        caption.textContent = `missing file: public/assets/photos/${fileName}`;
+    });
+
+    item.append(image, caption);
+    return item;
 }
 
-function updateImageByName(fileName) {
-    if (!fileName || !stageImage) {
+function renderPhotoAlbum() {
+    if (!photoAlbum) {
         return;
     }
 
-    const nextSrc = `assets/photos/${fileName}`;
-    stage.classList.add('is-transitioning');
-    filenameLabel.textContent = fileName;
-
-    const temp = new Image();
-    temp.onload = () => {
-        stageImage.src = nextSrc;
-        hidePlaceholder();
-        requestAnimationFrame(() => {
-            stage.classList.remove('is-transitioning');
-        });
-    };
-
-    temp.onerror = () => {
-        showPlaceholder(`insert in resource folders: public/assets/photos/${fileName}`);
-        requestAnimationFrame(() => {
-            stage.classList.remove('is-transitioning');
-        });
-    };
-
-    temp.src = nextSrc;
+    photoFiles.forEach((fileName) => {
+        photoAlbum.append(createAlbumItem(fileName));
+    });
 }
 
-stageImage.addEventListener('error', () => {
-    const currentName = filenameLabel.textContent || 'FrontPage.jpg';
-    showPlaceholder(`insert in resource folders: public/assets/photos/${currentName}`);
-});
-
-const observer = new IntersectionObserver(
+const sectionObserver = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                panels.forEach((panel) => panel.classList.remove('is-active'));
-                entry.target.classList.add('is-active');
-                updateImageByName(entry.target.dataset.image);
+                setCurrentSection(entry.target.id);
             }
         });
     },
@@ -62,5 +72,21 @@ const observer = new IntersectionObserver(
     }
 );
 
-panels.forEach((panel) => observer.observe(panel));
-updateImageByName('FrontPage.jpg');
+const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+sections.forEach((section) => sectionObserver.observe(section));
+revealItems.forEach((item) => revealObserver.observe(item));
+setCurrentSection('about');
+renderPhotoAlbum();
