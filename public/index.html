@@ -301,11 +301,42 @@
             transform: translateY(0);
         }
 
-        @media (max-width: 980px) {
+        @media (max-width: 768px) {
             .top-nav {
+                top: 0.7rem;
                 width: 92vw;
                 justify-content: center;
                 flex-wrap: wrap;
+                gap: 0.45rem;
+                padding: 0.45rem;
+            }
+
+            .top-nav a {
+                font-size: 0.84rem;
+                padding: 0.34rem 0.62rem;
+            }
+
+            .section {
+                scroll-margin-top: 6.1rem;
+            }
+
+            .about-hero {
+                min-height: 92svh;
+                padding: 6.4rem 1.1rem 2.1rem;
+            }
+
+            .hero-copy h1 {
+                font-size: clamp(2.1rem, 12.5vw, 3.3rem);
+                max-width: 11ch;
+            }
+
+            .hero-copy p {
+                width: 100%;
+                font-size: 1rem;
+            }
+
+            .content-section {
+                padding: 1.7rem 1.1rem 2.2rem;
             }
 
             .card-grid,
@@ -314,8 +345,119 @@
             }
 
             .album-item img {
-                height: 52vw;
+                height: 62vw;
                 min-height: 220px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 980px) {
+            .top-nav {
+                width: min(94vw, 760px);
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .about-hero {
+                min-height: 90svh;
+            }
+
+            .hero-copy h1 {
+                font-size: clamp(2.8rem, 8vw, 4.3rem);
+            }
+
+            .content-section {
+                padding-inline: 1.6rem;
+            }
+
+            .card-grid,
+            .album-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 981px) and (max-width: 1919px) and (min-aspect-ratio: 14 / 9) {
+            .top-nav {
+                top: 1.05rem;
+                gap: 1rem;
+                padding: 0.58rem;
+            }
+
+            .about-hero {
+                min-height: 100vh;
+                padding: clamp(5.4rem, 6vw, 7rem) clamp(2rem, 5.5vw, 5.5rem) clamp(2.6rem, 4vw, 3.2rem);
+            }
+
+            .hero-copy {
+                width: min(1050px, 82vw);
+            }
+
+            .hero-copy h1 {
+                font-size: clamp(3.2rem, 6.1vw, 5.9rem);
+                max-width: 13ch;
+            }
+
+            .hero-copy p {
+                font-size: clamp(1.03rem, 1.15vw, 1.25rem);
+            }
+
+            .content-section {
+                width: min(1240px, 92vw);
+                margin-inline: auto;
+                padding-left: 0;
+                padding-right: 0;
+                padding-bottom: clamp(3rem, 5vw, 4.3rem);
+            }
+
+            .card-grid,
+            .album-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1920px), (min-aspect-ratio: 21 / 9) {
+            .top-nav {
+                top: 1.2rem;
+                gap: 1.1rem;
+                padding: 0.62rem;
+            }
+
+            .about-hero {
+                min-height: 100vh;
+                padding: 7.2rem clamp(3rem, 8vw, 11rem) 3rem;
+            }
+
+            .hero-copy {
+                width: min(1280px, 72vw);
+            }
+
+            .hero-copy h1 {
+                font-size: clamp(4.1rem, 5vw, 7.7rem);
+                max-width: 14ch;
+            }
+
+            .hero-copy p {
+                width: min(760px, 100%);
+                font-size: clamp(1.08rem, 1vw, 1.32rem);
+            }
+
+            .content-section {
+                width: min(1800px, 86vw);
+                margin-inline: auto;
+                padding-left: 0;
+                padding-right: 0;
+                padding-bottom: clamp(3.2rem, 4vw, 5rem);
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .album-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .album-item img {
+                height: 340px;
             }
         }
     </style>
