@@ -1,5 +1,9 @@
 # kerwin resume website
 
+[![Live Website](https://img.shields.io/badge/live%20website-open-1f6feb?style=for-the-badge)](https://kerwinmok.github.io/website/)
+
+Live site: https://kerwinmok.github.io/website/
+
 A modern one-page resume site with a Java backend and a scroll-driven frontend experience.
 
 As you scroll, each section fades in and the featured landscape image changes.
