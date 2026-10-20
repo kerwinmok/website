@@ -2,6 +2,12 @@ const sections = Array.from(document.querySelectorAll('.section'));
 const navLinks = Array.from(document.querySelectorAll('.top-nav a'));
 const revealItems = Array.from(document.querySelectorAll('.reveal'));
 const photoAlbum = document.getElementById('photo-album');
+const projectSection = document.getElementById('projects');
+const projectGrid = document.getElementById('project-grid');
+const projectMore = document.getElementById('project-more');
+const projectCards = projectGrid ? Array.from(projectGrid.querySelectorAll('.card')) : [];
+
+let showAllProjects = false;
 
 document.documentElement.classList.remove('no-js');
 document.documentElement.classList.add('js');
@@ -121,6 +127,29 @@ function requestSectionUpdate() {
     });
 }
 
+function updateProjectList() {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const canCollapse = projectCards.length > 3;
+
+    if (!isMobile) {
+        showAllProjects = false;
+    }
+
+    projectGrid?.classList.toggle('is-collapsed', isMobile && canCollapse && !showAllProjects);
+    projectMore.hidden = !isMobile || !canCollapse;
+    projectMore.setAttribute('aria-expanded', String(isMobile && showAllProjects));
+    projectMore.textContent = showAllProjects ? 'show less' : 'view more';
+}
+
+projectMore.addEventListener('click', () => {
+    showAllProjects = !showAllProjects;
+    updateProjectList();
+
+    if (!showAllProjects) {
+        projectSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
+
 function enableFloatyWheelScroll() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -210,7 +239,10 @@ if ('IntersectionObserver' in window) {
 }
 
 window.addEventListener('scroll', requestSectionUpdate, { passive: true });
-window.addEventListener('resize', requestSectionUpdate);
+window.addEventListener('resize', () => {
+    requestSectionUpdate();
+    updateProjectList();
+});
 enableFloatyWheelScroll();
 
 const initialSectionId = (window.location.hash || '').replace('#', '');
@@ -220,3 +252,4 @@ setCurrentSection(hasInitialSection ? initialSectionId : 'about');
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
+updateProjectList();

@@ -49,7 +49,8 @@
         h2 {
             font-family: "Instrument Serif", serif;
             font-weight: 400;
-            line-height: 1.02;
+            line-height: 1.12;
+            letter-spacing: 0.015em;
         }
 
         .top-nav {
@@ -186,6 +187,22 @@
             gap: 1rem;
         }
 
+        .project-more {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--line);
+            border-radius: 0.5rem;
+            background: #fafaf7;
+            color: var(--ink);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .project-more[hidden] {
+            display: none;
+        }
+
         .card {
             padding: 1.15rem;
             border-radius: 1rem;
@@ -196,6 +213,8 @@
         .card h3 {
             margin-bottom: 0.45rem;
             text-transform: lowercase;
+            line-height: 1.3;
+            letter-spacing: 0.01em;
         }
 
         .card p {
@@ -359,6 +378,14 @@
                 grid-template-columns: 1fr;
             }
 
+            .card-grid.is-collapsed .card:nth-child(n + 4) {
+                display: none;
+            }
+
+            .project-more:not([hidden]) {
+                display: inline-flex;
+            }
+
             .album-item img {
                 height: 62vw;
                 min-height: 220px;
@@ -500,9 +527,9 @@
         <section id="projects" class="section content-section reveal">
             <h2>projects</h2>
             <p>
-                A few selected builds with links to each repository.
+                Projects, class work, and small experiments.
             </p>
-            <div class="card-grid">
+            <div class="card-grid" id="project-grid">
                 <article class="card">
                     <h3>rubik's cube solver</h3>
                     <p>
@@ -559,7 +586,48 @@
                     </p>
                     <a class="project-link" href="https://github.com/kerwinmok/java-syntax-" target="_blank" rel="noopener noreferrer">view repository</a>
                 </article>
+                <article class="card">
+                    <h3>ascii cam</h3>
+                    <p>Turns a live camera feed into an adjustable ASCII view.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/ascii-cam" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>cmpt 201 coursework</h3>
+                    <p>Course assignments and practice from SFU's CMPT 201.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/cmpt-201-coursework" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>magazine</h3>
+                    <p>A magazine layout experiment with visual references.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/magazine" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>monkey website</h3>
+                    <p>An early HTML page built as a small monkey chart.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/monkeywebsite" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>monkey website mobile</h3>
+                    <p>A mobile version of the monkey chart experiment.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/monkeywebsitemobile" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>nas storage</h3>
+                    <p>Notes and code for a home NAS with remote access.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/NAS-storage" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>not trigger</h3>
+                    <p>A Windows color-triggered automation tool using a webcam.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/not_trigger" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
+                <article class="card">
+                    <h3>poop chart</h3>
+                    <p>An early HTML chart experiment with custom images.</p>
+                    <a class="project-link" href="https://github.com/kerwinmok/poop-chart" target="_blank" rel="noopener noreferrer">view repository</a>
+                </article>
             </div>
+            <button class="project-more" id="project-more" type="button" aria-controls="project-grid" aria-expanded="false" hidden>view more</button>
         </section>
 
         <section id="experience" class="section content-section reveal">
