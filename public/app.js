@@ -379,6 +379,106 @@ function initHeroBike() {
     frontWheel.position.set(1.06, -0.33, 0);
     bikeGroup.add(frontWheel);
 
+    const engineBlock = new THREE.Mesh(
+        new THREE.BoxGeometry(0.62, 0.44, 0.34),
+        darkMetal
+    );
+    engineBlock.position.set(-0.08, -0.12, 0);
+    bikeGroup.add(engineBlock);
+
+    const lowerCowl = new THREE.Mesh(
+        new THREE.BoxGeometry(0.86, 0.24, 0.38),
+        fairingBlack
+    );
+    lowerCowl.position.set(0.08, -0.3, 0);
+    lowerCowl.rotation.z = -0.08;
+    bikeGroup.add(lowerCowl);
+
+    const mainFairing = new THREE.Mesh(
+        new THREE.BoxGeometry(0.82, 0.48, 0.44),
+        suzukiBlue
+    );
+    mainFairing.position.set(0.42, 0.12, 0);
+    mainFairing.rotation.z = -0.22;
+    bikeGroup.add(mainFairing);
+
+    const fairingStripe = new THREE.Mesh(
+        new THREE.BoxGeometry(0.68, 0.09, 0.46),
+        stripeWhite
+    );
+    fairingStripe.position.set(0.4, 0.1, 0);
+    fairingStripe.rotation.z = -0.32;
+    bikeGroup.add(fairingStripe);
+
+    const noseCone = new THREE.Mesh(
+        new THREE.ConeGeometry(0.26, 0.56, 20),
+        suzukiBlue
+    );
+    noseCone.rotation.z = -Math.PI / 2 - 0.15;
+    noseCone.position.set(0.88, 0.25, 0);
+    bikeGroup.add(noseCone);
+
+    const headlight = new THREE.Mesh(
+        new THREE.BoxGeometry(0.12, 0.13, 0.2),
+        new THREE.MeshStandardMaterial({
+            color: 0xeaf6ff,
+            emissive: 0x99ccff,
+            emissiveIntensity: 0.65
+        })
+    );
+    headlight.position.set(1.06, 0.24, 0);
+    headlight.rotation.z = -0.2;
+    bikeGroup.add(headlight);
+
+    const windscreen = new THREE.Mesh(
+        new THREE.BoxGeometry(0.46, 0.24, 0.34),
+        new THREE.MeshStandardMaterial({
+            color: 0x8fb6d9,
+            transparent: true,
+            opacity: 0.45,
+            metalness: 0.2,
+            roughness: 0.1
+        })
+    );
+    windscreen.position.set(0.68, 0.46, 0);
+    windscreen.rotation.z = -0.58;
+    bikeGroup.add(windscreen);
+
+    const fuelTank = new THREE.Mesh(
+        new THREE.SphereGeometry(0.32, 24, 18),
+        suzukiBlue
+    );
+    fuelTank.scale.set(1.55, 0.82, 0.85);
+    fuelTank.position.set(-0.02, 0.34, 0);
+    bikeGroup.add(fuelTank);
+
+    const riderSeat = new THREE.Mesh(
+        new THREE.BoxGeometry(0.48, 0.12, 0.3),
+        fairingBlack
+    );
+    riderSeat.position.set(-0.48, 0.24, 0);
+    riderSeat.rotation.z = 0.08;
+    bikeGroup.add(riderSeat);
+
+    const tailCowl = new THREE.Mesh(
+        new THREE.ConeGeometry(0.21, 0.68, 16),
+        suzukiBlue
+    );
+    tailCowl.rotation.z = Math.PI / 2 + 0.26;
+    tailCowl.position.set(-0.92, 0.38, 0);
+    bikeGroup.add(tailCowl);
+
+    const tailLight = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.06, 0.16),
+        new THREE.MeshStandardMaterial({
+            color: 0xff2a2a,
+            emissive: 0xcc1111,
+            emissiveIntensity: 0.7
+        })
+    );
+    tailLight.position.set(-1.22, 0.44, 0);
+    bikeGroup.add(tailLight);
+
     function resizeBikeViewport() {
         const width = bikeCanvas.clientWidth || 360;
         const height = bikeCanvas.clientHeight || 280;
