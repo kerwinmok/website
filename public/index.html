@@ -258,20 +258,39 @@
             background: #fafaf7;
         }
 
-        .timeline span {
+        .timeline > li > span {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             letter-spacing: 0.06em;
             text-transform: uppercase;
             color: var(--muted);
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.42rem;
+        }
+
+        .timeline-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.2rem 1rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.45rem;
+            border-bottom: 1px solid var(--line);
         }
 
         .timeline strong {
             display: block;
-            margin-bottom: 0.4rem;
             text-transform: lowercase;
-            font-size: 1.05rem;
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .timeline-company {
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: lowercase;
+            color: var(--muted);
         }
 
         .timeline p {
