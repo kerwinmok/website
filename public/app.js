@@ -2,6 +2,9 @@ const sections = Array.from(document.querySelectorAll('.section'));
 const navLinks = Array.from(document.querySelectorAll('.top-nav a'));
 const revealItems = Array.from(document.querySelectorAll('.reveal'));
 const photoAlbum = document.getElementById('photo-album');
+const photoLightbox = document.getElementById('photo-lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
 const projectSection = document.getElementById('projects');
 const projectGrid = document.getElementById('project-grid');
 const projectMore = document.getElementById('project-more');
@@ -59,8 +62,35 @@ function createAlbumItem(fileName) {
         item.remove();
     });
 
+    item.addEventListener('click', () => {
+        openLightbox(image.src, fileName);
+    });
+
     item.append(image);
     return item;
+}
+
+function openLightbox(src, altText) {
+    if (!photoLightbox || !lightboxImg) {
+        return;
+    }
+
+    photoLightbox.classList.remove('is-zoomed');
+    lightboxImg.src = src;
+    lightboxImg.alt = altText;
+    photoLightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    if (!photoLightbox || !lightboxImg) {
+        return;
+    }
+
+    photoLightbox.hidden = true;
+    photoLightbox.classList.remove('is-zoomed');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
 }
 
 function renderPhotoAlbum() {
@@ -253,6 +283,26 @@ if (hasInitialSection) {
 } else {
     setCurrentSection('about');
 }
+
+if (lightboxClose) {
+    lightboxClose.addEventListener('click', () => {
+        closeLightbox();
+    });
+}
+
+if (photoLightbox) {
+    photoLightbox.addEventListener('click', (event) => {
+        if (event.target === photoLightbox) {
+            closeLightbox();
+        }
+    });
+}
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && photoLightbox && !photoLightbox.hidden) {
+        closeLightbox();
+    }
+});
 
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
