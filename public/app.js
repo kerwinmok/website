@@ -86,7 +86,7 @@ function applyHeroFallbackIfMissing() {
     heroImage.onerror = () => {
         document.body.classList.add('no-hero-image');
     };
-    heroImage.src = `assets/photos/${photoFiles[0]}`;
+    heroImage.src = 'assets/photos/AboutMe.jpg';
 }
 
 function updateCurrentSectionByScroll() {
