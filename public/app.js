@@ -59,9 +59,7 @@ function createAlbumItem(fileName) {
     caption.textContent = fileName;
 
     image.addEventListener('error', () => {
-        item.classList.add('album-placeholder');
-        image.remove();
-        caption.textContent = `missing file: public/assets/photos/${fileName}`;
+        item.remove();
     });
 
     item.append(image, caption);
