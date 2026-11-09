@@ -23,12 +23,6 @@ const photoFiles = [
     'gsx250r-cat-4.jpg'
 ];
 
-const heroCycleImg = document.getElementById('hero-cycle-img');
-const heroCycleCount = document.getElementById('hero-cycle-count');
-const heroPrevBtn = document.getElementById('hero-prev');
-const heroNextBtn = document.getElementById('hero-next');
-const aboutHero = document.getElementById('about');
-let currentHeroPhotoIndex = 0;
 
 function setCurrentSection(sectionId) {
     navLinks.forEach((link) => {
@@ -267,87 +261,7 @@ if (hasInitialSection) {
     setCurrentSection('about');
 }
 
-function updateHeroPhoto(nextIndex) {
-    if (!photoFiles.length) {
-        return;
-    }
-
-    const total = photoFiles.length;
-    currentHeroPhotoIndex = ((nextIndex % total) + total) % total;
-    const fileName = photoFiles[currentHeroPhotoIndex];
-    const imagePath = `assets/photos/${fileName}`;
-
-    if (heroCycleImg) {
-        heroCycleImg.src = imagePath;
-    }
-
-    if (heroCycleCount) {
-        heroCycleCount.textContent = `${currentHeroPhotoIndex + 1} / ${total}`;
-    }
-
-    if (aboutHero) {
-        aboutHero.style.setProperty('--hero-bg', `url("${imagePath}")`);
-    }
-}
-
-function initHeroPhotoCycler() {
-    if (!heroCycleImg) {
-        return;
-    }
-
-    if (heroPrevBtn) {
-        heroPrevBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            updateHeroPhoto(currentHeroPhotoIndex - 1);
-        });
-    }
-
-    if (heroNextBtn) {
-        heroNextBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            updateHeroPhoto(currentHeroPhotoIndex + 1);
-        });
-    }
-
-    heroCycleImg.addEventListener('click', () => {
-        updateHeroPhoto(currentHeroPhotoIndex + 1);
-    });
-
-    let touchStartX = 0;
-    heroCycleImg.addEventListener(
-        'touchstart',
-        (event) => {
-            if (event.touches.length > 0) {
-                touchStartX = event.touches[0].clientX;
-            }
-        },
-        { passive: true }
-    );
-
-    heroCycleImg.addEventListener(
-        'touchend',
-        (event) => {
-            if (event.changedTouches.length === 0) {
-                return;
-            }
-            const deltaX = event.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(deltaX) < 35) {
-                return;
-            }
-            if (deltaX < 0) {
-                updateHeroPhoto(currentHeroPhotoIndex + 1);
-            } else {
-                updateHeroPhoto(currentHeroPhotoIndex - 1);
-            }
-        },
-        { passive: true }
-    );
-
-    updateHeroPhoto(0);
-}
-
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
 updateProjectList();
-initHeroPhotoCycler();
