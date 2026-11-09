@@ -91,6 +91,8 @@
             min-height: 100svh;
             position: relative;
             display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+            gap: clamp(1.2rem, 3vw, 2.5rem);
             align-items: end;
             padding: clamp(5rem, 7vw, 7rem) clamp(1.2rem, 6vw, 5rem) clamp(2.2rem, 4vw, 3rem);
             overflow: hidden;
@@ -397,7 +399,12 @@
 
             .about-hero {
                 min-height: 92svh;
+                grid-template-columns: 1fr;
                 padding: 6.4rem 1.1rem 2.1rem;
+            }
+
+            .hero-bike {
+                height: 240px;
             }
 
             .hero-copy h1 {
