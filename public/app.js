@@ -55,14 +55,11 @@ function createAlbumItem(fileName) {
     image.src = `assets/photos/${fileName}`;
     image.alt = fileName;
 
-    const caption = document.createElement('figcaption');
-    caption.textContent = fileName;
-
     image.addEventListener('error', () => {
         item.remove();
     });
 
-    item.append(image, caption);
+    item.append(image);
     return item;
 }
 
