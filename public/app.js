@@ -139,7 +139,9 @@ function updateProjectList() {
         showAllProjects = false;
     }
 
-    projectGrid?.classList.toggle('is-collapsed', isMobile && canCollapse && !showAllProjects);
+    if (projectGrid) {
+        projectGrid.classList.toggle('is-collapsed', isMobile && canCollapse && !showAllProjects);
+    }
     projectMore.hidden = !isMobile || !canCollapse;
     projectMore.setAttribute('aria-expanded', String(isMobile && showAllProjects));
     if (showAllProjects) {
