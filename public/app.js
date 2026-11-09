@@ -290,6 +290,13 @@ if (lightboxClose) {
     });
 }
 
+if (lightboxImg && photoLightbox) {
+    lightboxImg.addEventListener('click', (event) => {
+        event.stopPropagation();
+        photoLightbox.classList.toggle('is-zoomed');
+    });
+}
+
 if (photoLightbox) {
     photoLightbox.addEventListener('click', (event) => {
         if (event.target === photoLightbox) {
