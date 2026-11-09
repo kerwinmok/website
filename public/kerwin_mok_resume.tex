@@ -1,0 +1,174 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage[letterpaper,left=0.45in,right=0.45in,top=0.4in,bottom=0.4in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{lmodern}
+
+\pagestyle{empty}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\setlength{\parskip}{1pt}
+
+% Custom Section Command (Canvas-compatible without titlesec)
+\newcommand{\resumesection}[1]{%
+  \vspace{4pt}%
+  {\large\scshape #1}\vspace{1.5pt}%
+  \hrule height 0.4pt%
+  \vspace{3pt}%
+}
+
+% Custom Subheading Commands (Jake's Resume style)
+\newcommand{\resumeSubheading}[4]{%
+  \vspace{1.5pt}%
+  \noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l r@{}}
+    \textbf{#1} & #2 \\
+    \textit{\small #3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{-4pt}%
+}
+
+\newcommand{\resumeProjectHeading}[2]{%
+  \vspace{1.5pt}%
+  \noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l r@{}}
+    \small #1 & \small #2 \\
+  \end{tabular*}\vspace{-4pt}%
+}
+
+\newcommand{\resumeItemListStart}{%
+  \begin{itemize}%
+    \setlength{\itemsep}{0.5pt}%
+    \setlength{\parskip}{0pt}%
+    \setlength{\parsep}{0pt}%
+    \setlength{\topsep}{1.5pt}%
+}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\newcommand{\resumeItem}[1]{%
+  \item\small{#1}%
+}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+  {\Huge \textbf{Kerwin Mok}} \\ \vspace{3pt}
+  \small (604) 365-1823 $|$
+  [\underline{kerwinmok@gmail.com}] $|$
+  [\underline{LinkedIn}] $|$
+  \href{https://github.com/kerwinmok}{\underline{GitHub}} $|$
+  \href{https://devpost.com/software/fridgemates}{\underline{Devpost}}
+\end{center}
+
+%-----------EDUCATION-----------
+\resumesection{Education}
+
+\resumeSubheading
+  {Simon Fraser University}{Burnaby, BC}
+  {Bachelor of Science in Computing Science}{2025 -- Present}
+
+\resumeSubheading
+  {University of Victoria}{Victoria, BC}
+  {Bachelor of Science in Computer Science}{2024 -- 2025}
+\vspace{1pt}
+
+%-----------PROJECTS-----------
+\resumesection{Projects}
+
+\resumeProjectHeading
+  {\textbf{FridgeMates (Fall Hacks 2026)} $|$ \emph{TypeScript, React Native, Node.js, Gemini API} $|$ \href{https://github.com/Rainier-Ordinario/FridgeMates}{\underline{GitHub}} $\cdot$ \href{https://devpost.com/software/fridgemates}{\underline{Devpost}}}{Nov. 2026}
+\resumeItemListStart
+  \resumeItem{Won the \textbf{SURGE Prize Track} at \textbf{SFU Fall Hacks 2026} (hosted by \textbf{Major League Hacking}), building an AI-powered iOS app in a team of 3 within \textbf{10 hours} to reduce household food waste}
+  \resumeItem{Built a single-photo fridge scanner in \textbf{React Native (Expo)} and \textbf{TypeScript} backed by \textbf{Node.js}, \textbf{Express}, and \textbf{Google Gemini Vision AI} to detect groceries, quantities, and expiry countdowns}
+  \resumeItem{Engineered interactive AI food sidekicks with dynamic mood states, automated recipe matchmaking for expiring ingredients, an AI kitchen assistant, and SMS expiry alerts}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{Not Trigger} $|$ \emph{Python, OpenCV, NumPy, Pillow, pynput, Pytest} $|$ \href{https://github.com/kerwinmok/not_trigger}{\underline{GitHub}}}{Oct. 2026}
+\resumeItemListStart
+  \resumeItem{Built a low-latency desktop triggerbot and input automation tool in \textbf{Python} using \textbf{OpenCV}, \textbf{NumPy}, and \textbf{pynput} that monitors live video feeds and triggers mouse or keyboard actions on target color matches}
+  \resumeItem{Implemented configurable \textbf{Region of Interest (ROI)} shapes (rectangle, circle, point), live preview color sampling, latency telemetry, and low-CPU/FPS-override controls persisted via JSON and tested with \textbf{Pytest}}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{Self-Hosted Cloud Photo NAS} $|$ \emph{Java, Spring Boot, Spring Data JPA, H2, Maven} $|$ \href{https://github.com/kerwinmok/NAS-storage}{\underline{GitHub}}}{Jun. 2026}
+\resumeItemListStart
+  \resumeItem{Developed a self-hosted network-attached storage (NAS) web server in \textbf{Java} using \textbf{Spring Boot}, \textbf{Spring Data JPA}, and an embedded \textbf{H2} database for mobile-to-desktop photo uploads over local and remote networks}
+  \resumeItem{Implemented \textbf{SHA-256} hash deduplication, automated image compression, and thumbnail generation with \textbf{Thumbnailator} to optimize disk usage and mobile gallery rendering}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{ASCII Webcam Converter} $|$ \emph{JavaScript, HTML5, CSS} $|$ \href{https://github.com/kerwinmok/ascii-cam}{\underline{GitHub}}}{Oct. 2026}
+\resumeItemListStart
+  \resumeItem{Built a real-time browser webcam pipeline in \textbf{JavaScript} and \textbf{HTML5} that converts live video streams into dynamic ASCII character frames with live FPS and resolution telemetry}
+  \resumeItem{Added interactive controls for monochrome and color rendering modes, customizable text resolutions, and adjustable character palettes}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{Portfolio Website} $|$ \emph{React, JavaScript, HTML, CSS, GitHub Pages} $|$ [\underline{GitHub}]}{May 2026 -- Present}
+\resumeItemListStart
+  \resumeItem{Developed and deployed a responsive personal portfolio website using \textbf{React}, \textbf{JavaScript}, \textbf{HTML}, and \textbf{CSS} with reusable UI components and a \textbf{GitHub Pages} CI/CD workflow}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{Java Rubik's Cube Solver} $|$ \emph{Java} $|$ [\underline{GitHub}]}{Oct. 2025 -- Dec. 2025}
+\resumeItemListStart
+  \resumeItem{Designed a Rubik's Cube solver in \textbf{Java} using the \textbf{IDA* (Iterative Deepening A*)} search algorithm with admissible \textbf{corner and edge Manhattan distance} heuristics and redundant-move pruning}
+  \resumeItem{Built a custom cube state file parser and validator supporting full, inverse, and double turns (e.g., F, FF, FFF)}
+\resumeItemListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\resumesection{Technical Skills}
+\begin{itemize}
+  \setlength{\itemsep}{0.5pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+  \item[] \small{
+    \textbf{Languages}{: Java, Python, C/C++, TypeScript/JavaScript, SQL, HTML, CSS, RISC-V} \\
+    \textbf{Frameworks \& Libraries}{: Spring Boot, React, React Native (Expo), Node.js, Express.js, OpenCV, NumPy, Pillow} \\
+    \textbf{Tools \& Platforms}{: Git, GitHub, Maven, Pytest, H2 Database, Google Gemini API, Render, GitHub Pages, VS Code}
+  }
+\end{itemize}
+
+\newpage
+
+%-----------EXPERIENCE-----------
+\resumesection{Experience}
+
+\resumeSubheading
+  {Service Coordinator}{Aug. 2026 -- Present}
+  {The BMW Store}{Vancouver, BC}
+\resumeItemListStart
+  \resumeItem{Managed high-volume inbound and outbound calls, accurately directing customers to appropriate departments and service advisors}
+  \resumeItem{Scheduled and coordinated vehicle service appointments based on customer needs, advisor availability, and shop capacity}
+  \resumeItem{Assisted customers with service inquiries, appointment changes, and cancellations while coordinating communication across service advisors, technicians, and dealership departments}
+\resumeItemListEnd
+
+\resumeSubheading
+  {Copy Centre Representative}{Feb. 2023 -- Aug. 2024 $|$ Aug. 2025 -- Present}
+  {Staples Canada}{Vancouver, BC}
+\resumeItemListStart
+  \resumeItem{Coordinated with \textbf{5 shipping couriers} to consult customers on package availability, pricing, and delivery options}
+  \resumeItem{Produced and processed a wide range of custom print materials including posters, banners, business cards, brochures, calendars, menus, and stamps}
+  \resumeItem{Processed passport, visa, and ID photos in compliance with international sizing standards (\textbf{35$\times$45 mm, 2$\times$2 in, 50$\times$70 mm})}
+  \resumeItem{Balanced print production, shipping operations, technical troubleshooting, cashier duties, and floor security simultaneously}
+\resumeItemListEnd
+
+\resumeSubheading
+  {Crew Member}{Aug. 2021 -- Apr. 2022 $|$ May 2025 -- Aug. 2025 $|$ May 2026 -- Sep. 2026}
+  {A\&W Canada}{Vancouver, BC}
+\resumeItemListStart
+  \resumeItem{Maintained a \textbf{1:36 average order wait time} across grill, fryer, and point stations while consistently upholding quality and speed standards}
+  \resumeItem{Organized tasks by priority and maintained cleanliness and workflow efficiency during high-volume shifts}
+\resumeItemListEnd
+
+\resumeSubheading
+  {Deli Worker}{Aug. 2022 -- Feb. 2023}
+  {Supervalu (Freshmart)}{Vancouver, BC}
+\resumeItemListStart
+  \resumeItem{Prepared deli meats, cheeses, and \textbf{20+ sandwich varieties} consistently and efficiently, including bulk production to keep shelves stocked}
+  \resumeItem{Fulfilled customer orders to standard while maintaining speed and consistency across all products}
+\resumeItemListEnd
+
+\end{document}
