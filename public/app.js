@@ -292,6 +292,93 @@ function initHeroBike() {
     const bikeGroup = new THREE.Group();
     scene.add(bikeGroup);
 
+    const suzukiBlue = new THREE.MeshStandardMaterial({
+        color: 0x0f4cd9,
+        metalness: 0.45,
+        roughness: 0.24
+    });
+    const fairingBlack = new THREE.MeshStandardMaterial({
+        color: 0x15181e,
+        metalness: 0.3,
+        roughness: 0.42
+    });
+    const stripeWhite = new THREE.MeshStandardMaterial({
+        color: 0xf4f6fa,
+        metalness: 0.2,
+        roughness: 0.3
+    });
+    const tireRubber = new THREE.MeshStandardMaterial({
+        color: 0x111215,
+        metalness: 0.05,
+        roughness: 0.85
+    });
+    const metalSteel = new THREE.MeshStandardMaterial({
+        color: 0xbac2cc,
+        metalness: 0.82,
+        roughness: 0.22
+    });
+    const darkMetal = new THREE.MeshStandardMaterial({
+        color: 0x262a31,
+        metalness: 0.65,
+        roughness: 0.35
+    });
+    const forkGold = new THREE.MeshStandardMaterial({
+        color: 0xd4a63a,
+        metalness: 0.78,
+        roughness: 0.25
+    });
+
+    function createSportWheel(radius, tireTube) {
+        const wheel = new THREE.Group();
+
+        const tire = new THREE.Mesh(
+            new THREE.TorusGeometry(radius, tireTube, 20, 42),
+            tireRubber
+        );
+        wheel.add(tire);
+
+        const rimStrip = new THREE.Mesh(
+            new THREE.TorusGeometry(radius - tireTube * 0.55, 0.015, 12, 36),
+            suzukiBlue
+        );
+        wheel.add(rimStrip);
+
+        const hub = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.08, 0.08, 0.16, 18),
+            darkMetal
+        );
+        hub.rotation.x = Math.PI / 2;
+        wheel.add(hub);
+
+        for (let i = 0; i < 6; i += 1) {
+            const angle = (i * Math.PI) / 3;
+            const spoke = new THREE.Mesh(
+                new THREE.BoxGeometry(0.032, radius * 1.55, 0.025),
+                fairingBlack
+            );
+            spoke.rotation.z = angle;
+            wheel.add(spoke);
+        }
+
+        const rotor = new THREE.Mesh(
+            new THREE.CylinderGeometry(radius * 0.56, radius * 0.56, 0.014, 28),
+            metalSteel
+        );
+        rotor.rotation.x = Math.PI / 2;
+        rotor.position.z = 0.065;
+        wheel.add(rotor);
+
+        return wheel;
+    }
+
+    const rearWheel = createSportWheel(0.46, 0.13);
+    rearWheel.position.set(-1.02, -0.32, 0);
+    bikeGroup.add(rearWheel);
+
+    const frontWheel = createSportWheel(0.45, 0.115);
+    frontWheel.position.set(1.06, -0.33, 0);
+    bikeGroup.add(frontWheel);
+
     function resizeBikeViewport() {
         const width = bikeCanvas.clientWidth || 360;
         const height = bikeCanvas.clientHeight || 280;
