@@ -542,8 +542,34 @@ function initHeroBike() {
         camera.updateProjectionMatrix();
     }
 
+    let targetYaw = -0.45;
+    let currentYaw = -0.45;
+    let idleAngle = 0;
+
+    function syncBikeScrollRotation() {
+        const scrollRatio = window.scrollY / Math.max(window.innerHeight, 1);
+        targetYaw = -0.45 + scrollRatio * Math.PI * 2.2;
+    }
+
+    function animateBike() {
+        idleAngle += 0.004;
+        currentYaw += (targetYaw + idleAngle - currentYaw) * 0.08;
+        bikeGroup.rotation.y = currentYaw;
+        bikeGroup.position.y = Math.sin(idleAngle * 3) * 0.03;
+
+        const wheelSpin = window.scrollY * 0.018;
+        frontWheel.rotation.z = -wheelSpin;
+        rearWheel.rotation.z = -wheelSpin;
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(animateBike);
+    }
+
+    window.addEventListener('scroll', syncBikeScrollRotation, { passive: true });
+    window.addEventListener('resize', resizeBikeViewport);
     resizeBikeViewport();
-    renderer.render(scene, camera);
+    syncBikeScrollRotation();
+    animateBike();
 }
 
 updateCurrentSectionByScroll();
