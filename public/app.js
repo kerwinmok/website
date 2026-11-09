@@ -789,6 +789,36 @@ function initHeroPhotoCycler() {
         updateHeroPhoto(currentHeroPhotoIndex + 1);
     });
 
+    let touchStartX = 0;
+    heroCycleImg.addEventListener(
+        'touchstart',
+        (event) => {
+            if (event.touches.length > 0) {
+                touchStartX = event.touches[0].clientX;
+            }
+        },
+        { passive: true }
+    );
+
+    heroCycleImg.addEventListener(
+        'touchend',
+        (event) => {
+            if (event.changedTouches.length === 0) {
+                return;
+            }
+            const deltaX = event.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(deltaX) < 35) {
+                return;
+            }
+            if (deltaX < 0) {
+                updateHeroPhoto(currentHeroPhotoIndex + 1);
+            } else {
+                updateHeroPhoto(currentHeroPhotoIndex - 1);
+            }
+        },
+        { passive: true }
+    );
+
     updateHeroPhoto(0);
 }
 
