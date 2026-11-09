@@ -5,7 +5,10 @@ const photoAlbum = document.getElementById('photo-album');
 const projectSection = document.getElementById('projects');
 const projectGrid = document.getElementById('project-grid');
 const projectMore = document.getElementById('project-more');
-const projectCards = projectGrid ? Array.from(projectGrid.querySelectorAll('.card')) : [];
+let projectCards = [];
+if (projectGrid) {
+    projectCards = Array.from(projectGrid.querySelectorAll('.card'));
+}
 
 let showAllProjects = false;
 
@@ -138,7 +141,11 @@ function updateProjectList() {
     projectGrid?.classList.toggle('is-collapsed', isMobile && canCollapse && !showAllProjects);
     projectMore.hidden = !isMobile || !canCollapse;
     projectMore.setAttribute('aria-expanded', String(isMobile && showAllProjects));
-    projectMore.textContent = showAllProjects ? 'show less' : 'view more';
+    if (showAllProjects) {
+        projectMore.textContent = 'show less';
+    } else {
+        projectMore.textContent = 'view more';
+    }
 }
 
 projectMore.addEventListener('click', () => {
@@ -248,7 +255,11 @@ enableFloatyWheelScroll();
 const initialSectionId = (window.location.hash || '').replace('#', '');
 const hasInitialSection = sections.some((section) => section.id === initialSectionId);
 
-setCurrentSection(hasInitialSection ? initialSectionId : 'about');
+if (hasInitialSection) {
+    setCurrentSection(initialSectionId);
+} else {
+    setCurrentSection('about');
+}
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
