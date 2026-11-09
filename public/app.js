@@ -479,6 +479,61 @@ function initHeroBike() {
     tailLight.position.set(-1.22, 0.44, 0);
     bikeGroup.add(tailLight);
 
+    const forkOffsets = [-0.11, 0.11];
+    forkOffsets.forEach((zOffset) => {
+        const forkTube = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.032, 0.028, 0.92, 14),
+            forkGold
+        );
+        forkTube.position.set(0.84, 0.04, zOffset);
+        forkTube.rotation.z = 0.44;
+        bikeGroup.add(forkTube);
+    });
+
+    const handlebar = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.02, 0.02, 0.62, 12),
+        darkMetal
+    );
+    handlebar.rotation.x = Math.PI / 2;
+    handlebar.position.set(0.56, 0.38, 0);
+    bikeGroup.add(handlebar);
+
+    const swingarm = new THREE.Mesh(
+        new THREE.BoxGeometry(0.76, 0.09, 0.26),
+        darkMetal
+    );
+    swingarm.position.set(-0.64, -0.24, 0);
+    swingarm.rotation.z = 0.12;
+    bikeGroup.add(swingarm);
+
+    const exhaustCan = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.075, 0.06, 0.78, 18),
+        fairingBlack
+    );
+    exhaustCan.rotation.z = Math.PI / 2 - 0.34;
+    exhaustCan.position.set(-0.62, -0.1, 0.22);
+    bikeGroup.add(exhaustCan);
+
+    const exhaustTip = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.076, 0.065, 0.14, 18),
+        metalSteel
+    );
+    exhaustTip.rotation.z = Math.PI / 2 - 0.34;
+    exhaustTip.position.set(-0.98, 0.02, 0.22);
+    bikeGroup.add(exhaustTip);
+
+    const shadowDisc = new THREE.Mesh(
+        new THREE.CircleGeometry(1.65, 36),
+        new THREE.MeshBasicMaterial({
+            color: 0x050608,
+            transparent: true,
+            opacity: 0.36
+        })
+    );
+    shadowDisc.rotation.x = -Math.PI / 2;
+    shadowDisc.position.y = -0.89;
+    scene.add(shadowDisc);
+
     function resizeBikeViewport() {
         const width = bikeCanvas.clientWidth || 360;
         const height = bikeCanvas.clientHeight || 280;
