@@ -267,9 +267,9 @@ function initHeroBike() {
     }
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(3.2, 1.45, 4.1);
-    camera.lookAt(0, 0.15, 0);
+    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    camera.position.set(3.05, 1.15, 3.85);
+    camera.lookAt(0, -0.05, 0);
 
     const renderer = new THREE.WebGLRenderer({
         canvas: bikeCanvas,
@@ -290,6 +290,7 @@ function initHeroBike() {
     scene.add(rimLight);
 
     const bikeGroup = new THREE.Group();
+    bikeGroup.scale.set(1.08, 1.08, 1.08);
     scene.add(bikeGroup);
 
     const suzukiBlue = new THREE.MeshStandardMaterial({
