@@ -298,6 +298,141 @@
             text-transform: none;
         }
 
+        .work-graph {
+            margin-bottom: 1.25rem;
+            padding: 1.15rem 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--line);
+            background: #fafaf7;
+        }
+
+        .work-axis {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.74rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.45rem;
+            padding-left: 150px;
+        }
+
+        .work-axis-endpoint {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .work-axis-line {
+            position: relative;
+            height: 2px;
+            margin-left: 150px;
+            margin-bottom: 0.9rem;
+            background: rgba(18, 20, 22, 0.22);
+        }
+
+        .work-axis-dot {
+            position: absolute;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--ink);
+            transform: translate(-50%, -50%);
+        }
+
+        .work-axis-dot.is-start {
+            left: 0%;
+        }
+
+        .work-axis-dot.is-end {
+            left: 100%;
+            background: #1d4ed8;
+            box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.18);
+        }
+
+        .work-lanes {
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .work-lane {
+            display: grid;
+            grid-template-columns: 138px 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .work-lane-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.84rem;
+            font-weight: 500;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        .work-track {
+            position: relative;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(18, 20, 22, 0.07);
+        }
+
+        .work-bar {
+            position: absolute;
+            top: 2px;
+            bottom: 2px;
+            border-radius: 999px;
+            min-width: 10px;
+        }
+
+        .work-bar::before,
+        .work-bar::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: inherit;
+            border: 1.5px solid #fafaf7;
+            transform: translate(-50%, -50%);
+        }
+
+        .work-bar::before {
+            left: 0;
+        }
+
+        .work-bar::after {
+            left: 100%;
+        }
+
+        .job-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .is-bmw {
+            background: #1d4ed8;
+        }
+
+        .is-staples {
+            background: #d97706;
+        }
+
+        .is-supervalu {
+            background: #15803d;
+        }
+
+        .is-aw {
+            background: #c2410c;
+        }
+
         .timeline p {
             margin: 0;
             color: #30353b;
