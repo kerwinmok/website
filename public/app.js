@@ -18,9 +18,7 @@ document.documentElement.classList.add('js');
 const photoFiles = [
     'gsx250r-road.jpg',
     'gsx250r-cat-1.jpg',
-    'gsx250r-cat-2.jpg',
-    'gsx250r-cat-3.jpg',
-    'gsx250r-cat-4.jpg'
+    'gsx250r-cat-2.jpg'
 ];
 
 
