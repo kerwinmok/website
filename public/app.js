@@ -226,6 +226,10 @@ function enableFloatyWheelScroll() {
                 return;
             }
 
+            if (photoLightbox && !photoLightbox.hidden) {
+                return;
+            }
+
             event.preventDefault();
             targetY = clampTarget(targetY + event.deltaY * intensity);
 
