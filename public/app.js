@@ -544,12 +544,39 @@ function initHeroBike() {
 
     let targetYaw = -0.45;
     let currentYaw = -0.45;
+    let dragOffsetYaw = 0;
+    let isDraggingBike = false;
+    let lastPointerX = 0;
     let idleAngle = 0;
 
     function syncBikeScrollRotation() {
         const scrollRatio = window.scrollY / Math.max(window.innerHeight, 1);
-        targetYaw = -0.45 + scrollRatio * Math.PI * 2.2;
+        targetYaw = -0.45 + scrollRatio * Math.PI * 2.2 + dragOffsetYaw;
     }
+
+    bikeCanvas.addEventListener('pointerdown', (event) => {
+        isDraggingBike = true;
+        lastPointerX = event.clientX;
+        bikeCanvas.setPointerCapture(event.pointerId);
+    });
+
+    bikeCanvas.addEventListener('pointermove', (event) => {
+        if (!isDraggingBike) {
+            return;
+        }
+        const deltaX = event.clientX - lastPointerX;
+        lastPointerX = event.clientX;
+        dragOffsetYaw += deltaX * 0.012;
+        syncBikeScrollRotation();
+    });
+
+    bikeCanvas.addEventListener('pointerup', () => {
+        isDraggingBike = false;
+    });
+
+    bikeCanvas.addEventListener('pointercancel', () => {
+        isDraggingBike = false;
+    });
 
     function animateBike() {
         idleAngle += 0.004;
