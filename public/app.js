@@ -2,6 +2,7 @@ const sections = Array.from(document.querySelectorAll('.section'));
 const navLinks = Array.from(document.querySelectorAll('.top-nav a'));
 const revealItems = Array.from(document.querySelectorAll('.reveal'));
 const photoAlbum = document.getElementById('photo-album');
+const bikeCanvas = document.getElementById('bike-canvas');
 const projectSection = document.getElementById('projects');
 const projectGrid = document.getElementById('project-grid');
 const projectMore = document.getElementById('project-more');
@@ -260,7 +261,51 @@ if (hasInitialSection) {
 } else {
     setCurrentSection('about');
 }
+function initHeroBike() {
+    if (!bikeCanvas || typeof THREE === 'undefined') {
+        return;
+    }
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(3.2, 1.45, 4.1);
+    camera.lookAt(0, 0.15, 0);
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: bikeCanvas,
+        antialias: true,
+        alpha: true
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.78);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xfff7ea, 1.25);
+    keyLight.position.set(4, 6, 5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x5ea2ff, 0.9);
+    rimLight.position.set(-4, 3, -4);
+    scene.add(rimLight);
+
+    const bikeGroup = new THREE.Group();
+    scene.add(bikeGroup);
+
+    function resizeBikeViewport() {
+        const width = bikeCanvas.clientWidth || 360;
+        const height = bikeCanvas.clientHeight || 280;
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    }
+
+    resizeBikeViewport();
+    renderer.render(scene, camera);
+}
+
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
 updateProjectList();
+initHeroBike();
