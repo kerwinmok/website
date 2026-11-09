@@ -369,6 +369,46 @@
             bottom: 2px;
             border-radius: 999px;
             min-width: 10px;
+            cursor: pointer;
+        }
+
+        .work-tip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            padding: 0.26rem 0.55rem;
+            border-radius: 0.45rem;
+            background: var(--ink);
+            color: #f7f7f5;
+            font-size: 0.74rem;
+            font-weight: 500;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 160ms ease, transform 160ms ease;
+            z-index: 4;
+        }
+
+        .work-tip.is-left {
+            left: 0;
+            transform: translateX(0) translateY(4px);
+        }
+
+        .work-tip.is-right {
+            left: auto;
+            right: 0;
+            transform: translateX(0) translateY(4px);
+        }
+
+        .work-bar:hover .work-tip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .work-bar:hover .work-tip.is-left,
+        .work-bar:hover .work-tip.is-right {
+            transform: translateX(0) translateY(0);
         }
 
         .work-bar::before,
