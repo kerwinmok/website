@@ -315,7 +315,44 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
+function formatAgeInYearsAndMonths(birthDate, targetDate) {
+    let years = targetDate.getFullYear() - birthDate.getFullYear();
+    let months = targetDate.getMonth() - birthDate.getMonth();
+
+    if (targetDate.getDate() < birthDate.getDate()) {
+        months -= 1;
+    }
+
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+
+    return `${years} yrs ${months} mos old`;
+}
+
+function updateTimelineAgeTooltips() {
+    const birthDate = new Date(2006, 11, 21);
+    const startWorkDate = new Date(2021, 7, 30);
+    const nowDate = new Date();
+
+    const startAgeText = formatAgeInYearsAndMonths(birthDate, startWorkDate);
+    const currentAgeText = formatAgeInYearsAndMonths(birthDate, nowDate);
+
+    const startTips = Array.from(document.querySelectorAll('[data-age-start]'));
+    const nowTips = Array.from(document.querySelectorAll('[data-age-now]'));
+
+    startTips.forEach((tip) => {
+        tip.textContent = startAgeText;
+    });
+
+    nowTips.forEach((tip) => {
+        tip.textContent = currentAgeText;
+    });
+}
+
 updateCurrentSectionByScroll();
 renderPhotoAlbum();
 applyHeroFallbackIfMissing();
 updateProjectList();
+updateTimelineAgeTooltips();
