@@ -337,8 +337,10 @@
         }
 
         .work-axis-endpoint {
+            position: relative;
             font-weight: 700;
             color: var(--ink);
+            cursor: pointer;
         }
 
         .work-axis-line {
@@ -351,11 +353,18 @@
         .work-axis-dot {
             position: absolute;
             top: 50%;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: var(--ink);
             transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+
+        .work-axis-dot::before {
+            content: "";
+            position: absolute;
+            inset: -8px;
         }
 
         .work-axis-dot.is-start {
@@ -418,14 +427,26 @@
             transform: translateX(0) translateY(4px);
         }
 
-        .work-bar:hover .work-tip {
+        .work-bar:hover .work-tip,
+        .work-axis-endpoint:hover .work-tip,
+        .work-axis-dot:hover .work-tip {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
 
         .work-bar:hover .work-tip.is-left,
-        .work-bar:hover .work-tip.is-right {
+        .work-bar:hover .work-tip.is-right,
+        .work-axis-endpoint:hover .work-tip.is-left,
+        .work-axis-endpoint:hover .work-tip.is-right,
+        .work-axis-dot:hover .work-tip.is-left,
+        .work-axis-dot:hover .work-tip.is-right {
             transform: translateX(0) translateY(0);
+        }
+
+        .work-axis-endpoint .work-tip,
+        .work-axis-dot .work-tip {
+            text-transform: lowercase;
+            letter-spacing: normal;
         }
 
         .work-bar::before,
