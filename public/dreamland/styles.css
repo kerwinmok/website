@@ -325,3 +325,32 @@ h2 {
     display: none;
 }
 
+/* Generated Dream Land starfield nodes */
+.dream-star {
+    position: absolute;
+    display: block;
+    background: var(--star-color, var(--star-yellow));
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+}
+
+.dream-star.is-dot {
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--star-color, var(--star-yellow));
+}
+
+.dream-star.is-sparkle {
+    clip-path: polygon(
+        50% 0%,
+        63% 35%,
+        100% 50%,
+        63% 65%,
+        50% 100%,
+        37% 65%,
+        0% 50%,
+        37% 35%
+    );
+    filter: drop-shadow(0 0 6px rgba(255, 224, 102, 0.8));
+}
+
+
