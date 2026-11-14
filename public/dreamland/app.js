@@ -14,6 +14,7 @@ const navLinks = Array.from(document.querySelectorAll('.top-nav a[href^="#"]'));
 const altitudePill = document.getElementById('sky-altitude-pill');
 const warpStarAnchor = document.getElementById('warp-star-anchor');
 const kirbyTraveler = document.getElementById('kirby-traveler');
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 let cachedMaxScroll = 1;
 let cachedViewportHeight = window.innerHeight || 1;
@@ -21,6 +22,7 @@ let cachedSectionCenters = [];
 let isScrollTicking = false;
 let isResizeTicking = false;
 let lastActiveSectionId = '';
+let isReducedMotion = reducedMotionQuery.matches;
 
 function applyThemeConfig() {
     const rootStyle = document.documentElement.style;
@@ -239,10 +241,37 @@ function updateActiveSectionFromScroll(scrollY) {
     setCurrentNavSection(closest.id);
 }
 
+function resetParallaxTransforms() {
+    for (let i = 0; i < parallaxNodes.length; i += 1) {
+        parallaxNodes[i].style.transform = 'none';
+        parallaxNodes[i].style.opacity = '';
+    }
+
+    if (warpStarAnchor) {
+        warpStarAnchor.style.transform = 'none';
+    }
+
+    if (kirbyTraveler) {
+        kirbyTraveler.style.transform = 'none';
+    }
+}
+
 function applyParallaxTransforms(scrollY) {
     const layerSpeeds = config.layerSpeeds || {};
     const motion = config.motion || {};
     const progress = Math.min(Math.max(scrollY / cachedMaxScroll, 0), 1);
+
+    if (altitudePill) {
+        const altitudePercent = Math.round((1 - progress) * 100);
+        const zoneLabel = progress < 0.33 ? 'starlight' : progress < 0.72 ? 'cloud sea' : 'golden horizon';
+        altitudePill.textContent = `altitude: ${altitudePercent}% ${zoneLabel}`;
+    }
+
+    updateActiveSectionFromScroll(scrollY);
+
+    if (isReducedMotion) {
+        return;
+    }
 
     for (let i = 0; i < parallaxNodes.length; i += 1) {
         const node = parallaxNodes[i];
@@ -272,14 +301,6 @@ function applyParallaxTransforms(scrollY) {
         const bobTilt = Math.sin(progress * Math.PI * 2.5) * (motion.kirbyTiltDeg ?? 6);
         kirbyTraveler.style.transform = `translate3d(${floatX.toFixed(1)}px, ${floatY.toFixed(1)}px, 0) rotate(${bobTilt.toFixed(1)}deg)`;
     }
-
-    if (altitudePill) {
-        const altitudePercent = Math.round((1 - progress) * 100);
-        const zoneLabel = progress < 0.33 ? 'starlight' : progress < 0.72 ? 'cloud sea' : 'golden horizon';
-        altitudePill.textContent = `altitude: ${altitudePercent}% ${zoneLabel}`;
-    }
-
-    updateActiveSectionFromScroll(scrollY);
 }
 
 function requestParallaxFrame() {
@@ -307,11 +328,26 @@ function requestMetricsRecalc() {
     });
 }
 
+function handleReducedMotionChange(event) {
+    isReducedMotion = event.matches;
+    document.documentElement.classList.toggle('is-reduced-motion', isReducedMotion);
+
+    if (isReducedMotion) {
+        resetParallaxTransforms();
+    } else {
+        applyParallaxTransforms(window.scrollY);
+    }
+}
+
 applyThemeConfig();
 renderProceduralStarfield();
 bindConfiguredAssets();
 cacheLayoutMetrics();
+handleReducedMotionChange(reducedMotionQuery);
 applyParallaxTransforms(window.scrollY);
 
+if (typeof reducedMotionQuery.addEventListener === 'function') {
+    reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+}
 window.addEventListener('scroll', requestParallaxFrame, { passive: true });
 window.addEventListener('resize', requestMetricsRecalc, { passive: true });

@@ -607,5 +607,34 @@ h2 {
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    html,
+    body {
+        scroll-behavior: auto;
+    }
+
+    .parallax-layer,
+    .warp-star-badge,
+    .kirby-placeholder-wrap,
+    .dream-star {
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto;
+    }
+
+    .top-nav a,
+    .dream-btn,
+    .dream-card {
+        transition: none !important;
+    }
+
+    .dream-btn:hover,
+    .dream-card:hover {
+        transform: none !important;
+    }
+}
+
+
 
 
