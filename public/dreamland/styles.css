@@ -1,0 +1,164 @@
+:root {
+    /* Dream Land core palette */
+    --kirby-pink: #ff8fb1;
+    --kirby-pink-deep: #ff5d8f;
+    --kirby-blush: #ffbfd3;
+    --kirby-cheek: #ff477e;
+    --star-yellow: #ffe066;
+    --star-gold: #ffb703;
+    --star-cream: #fff6cc;
+    --cloud-white: #fffdf9;
+    --cloud-tint: #fdeef4;
+
+    /* Pastel sky vertical gradient stops */
+    --sky-top: #1e1b4b;
+    --sky-upper: #4c3b8d;
+    --sky-mid: #b57edc;
+    --sky-lower: #ffb3c6;
+    --sky-horizon: #ffe599;
+
+    /* UI surfaces and ink */
+    --surface: rgba(255, 253, 249, 0.86);
+    --surface-strong: rgba(255, 253, 249, 0.94);
+    --ink: #2b1d38;
+    --muted: #644f78;
+    --line: rgba(255, 143, 177, 0.38);
+    --star-glow: 0 0 18px rgba(255, 224, 102, 0.75);
+    --card-shadow: 0 14px 34px rgba(43, 29, 56, 0.12), 0 3px 10px rgba(255, 93, 143, 0.1);
+
+    /* World layout metrics */
+    --world-min-height: 420vh;
+    --radius-pill: 999px;
+    --radius-card: 1.75rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Space Grotesk", sans-serif;
+    color: var(--ink);
+    background: linear-gradient(
+        180deg,
+        var(--sky-top) 0%,
+        var(--sky-upper) 24%,
+        var(--sky-mid) 52%,
+        var(--sky-lower) 78%,
+        var(--sky-horizon) 100%
+    );
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
+h1,
+h2 {
+    font-family: "Instrument Serif", serif;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0.015em;
+}
+
+.top-nav {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.65rem;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    border-radius: var(--radius-pill);
+    background: rgba(43, 29, 56, 0.55);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 26px rgba(30, 27, 75, 0.24);
+}
+
+.top-nav a {
+    color: var(--cloud-white);
+    text-decoration: none;
+    text-transform: lowercase;
+    padding: 0.38rem 0.85rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.top-nav a:hover,
+.top-nav a.is-current {
+    background: var(--star-yellow);
+    color: var(--ink);
+}
+
+.top-nav a.nav-return {
+    border: 1px dashed rgba(255, 224, 102, 0.65);
+    color: var(--star-cream);
+}
+
+.top-nav a.nav-return:hover {
+    background: var(--kirby-pink);
+    color: var(--ink);
+    border-color: transparent;
+}
+
+.dreamland-viewport {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.dreamland-world {
+    position: relative;
+    z-index: 2;
+    min-height: var(--world-min-height);
+}
+
+.section {
+    scroll-margin-top: 5.5rem;
+}
+
+.stage-section {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: clamp(5.5rem, 8vw, 7.5rem) clamp(1.2rem, 6vw, 5rem) clamp(3rem, 5vw, 4.5rem);
+}
+
+.stage-container {
+    width: min(1080px, 100%);
+    margin-inline: auto;
+}
+
+.kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 0.85rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--radius-pill);
+    background: var(--star-yellow);
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(255, 183, 3, 0.3);
+}
