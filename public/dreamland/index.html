@@ -19,7 +19,160 @@
     </header>
 
     <!-- Fixed viewport stage for parallax background layers -->
-    <div id="dreamland-viewport" class="dreamland-viewport" aria-hidden="true"></div>
+    <div id="dreamland-viewport" class="dreamland-viewport" aria-hidden="true">
+        <!-- Layer 1: Tall Dream Land World Sky Background -->
+        <!-- TODO(asset): Replace .sky-gradient-placeholder with full tall background image (assets/world-bg-sky.png) via config.js -->
+        <div class="parallax-layer layer-world-bg" data-parallax-layer="worldBg">
+            <div class="sky-gradient-placeholder">
+                <div class="sky-aurora sky-aurora-top"></div>
+                <div class="sky-aurora sky-aurora-mid"></div>
+                <div class="sky-horizon-glow"></div>
+            </div>
+        </div>
+
+        <!-- Layer 2: Distant Starfield (slowest parallax) -->
+        <!-- TODO(asset): Optional static/tiled star layer image (assets/stars-far.png) can replace generated stars via config.js -->
+        <div id="starfield-far" class="parallax-layer layer-stars-far" data-parallax-layer="farStars"></div>
+
+        <!-- Layer 3: Distant Pastel Clouds -->
+        <!-- TODO(asset): Replace inline SVG cloud bands with painted cloud layer (assets/clouds-far.png) -->
+        <div class="parallax-layer layer-clouds-far" data-parallax-layer="distantClouds">
+            <svg class="placeholder-svg cloud-band cloud-band-upper" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path fill="rgba(253, 238, 244, 0.28)" d="M0,192 C120,140 240,240 360,192 C480,144 600,96 720,154 C840,212 960,120 1080,160 C1200,200 1320,130 1440,176 L1440,320 L0,320 Z"></path>
+            </svg>
+            <div class="cloud-cluster cloud-cluster-far-left">
+                <svg class="placeholder-svg" viewBox="0 0 360 150">
+                    <g fill="rgba(255, 246, 204, 0.55)">
+                        <ellipse cx="110" cy="95" rx="85" ry="42" />
+                        <ellipse cx="185" cy="75" rx="72" ry="52" />
+                        <ellipse cx="255" cy="98" rx="76" ry="38" />
+                    </g>
+                </svg>
+            </div>
+            <div class="cloud-cluster cloud-cluster-far-right">
+                <svg class="placeholder-svg" viewBox="0 0 400 160">
+                    <g fill="rgba(255, 191, 211, 0.48)">
+                        <ellipse cx="120" cy="100" rx="90" ry="44" />
+                        <ellipse cx="210" cy="78" rx="82" ry="56" />
+                        <ellipse cx="295" cy="104" rx="80" ry="40" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Layer 4: Mid-depth Starfield -->
+        <!-- TODO(asset): Optional mid star layer asset (assets/stars-mid.png) can replace generated mid stars via config.js -->
+        <div id="starfield-mid" class="parallax-layer layer-stars-mid" data-parallax-layer="midStars"></div>
+
+        <!-- Layer 5: Floating Dream Land Hills & Fountain Isles -->
+        <!-- TODO(asset): Replace SVG floating islands and hills with illustrated stage backdrop (assets/dreamland-hills.png) -->
+        <div class="parallax-layer layer-floating-hills" data-parallax-layer="floatingHills">
+            <div class="floating-isle isle-left">
+                <svg class="placeholder-svg" viewBox="0 0 380 220">
+                    <!-- Rounded checkerboard-inspired pastel hill placeholder -->
+                    <path d="M30,140 C30,65 140,35 210,85 C265,55 345,80 350,140 Z" fill="#ffAFcc" />
+                    <path d="M55,140 C65,92 145,70 198,108 C242,82 312,98 325,140 Z" fill="#ffc8dd" />
+                    <path d="M20,136 Q190,175 360,136 L320,195 Q190,218 60,195 Z" fill="#ffe599" />
+                    <circle cx="115" cy="52" r="14" fill="#ffe066" />
+                </svg>
+            </div>
+            <div class="floating-isle isle-right">
+                <svg class="placeholder-svg" viewBox="0 0 420 240">
+                    <path d="M40,155 C45,72 165,40 245,98 C300,68 375,92 385,155 Z" fill="#cdb4db" />
+                    <path d="M70,155 C85,100 165,82 232,120 C278,94 342,110 355,155 Z" fill="#ffafcc" />
+                    <path d="M30,150 Q210,192 390,150 L345,212 Q210,234 75,212 Z" fill="#ffe066" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Layer 6: Warp Star Vehicle Placeholder -->
+        <!-- TODO(asset): Replace SVG Warp Star with illustrated Warp Star asset (assets/warp-star.png) -->
+        <div class="parallax-layer layer-warp-star" data-parallax-layer="warpStar">
+            <div id="warp-star-anchor" class="warp-star-badge">
+                <img class="asset-slot-img" data-asset-slot="warpStar" alt="" hidden />
+                <svg class="placeholder-svg warp-star-svg" viewBox="0 0 140 140">
+                    <defs>
+                        <radialGradient id="warpStarGrad" cx="45%" cy="38%" r="60%">
+                            <stop offset="0%" stop-color="#fff8d6" />
+                            <stop offset="55%" stop-color="#ffe066" />
+                            <stop offset="100%" stop-color="#ffb703" />
+                        </radialGradient>
+                    </defs>
+                    <path
+                        fill="url(#warpStarGrad)"
+                        stroke="#ffffff"
+                        stroke-width="4"
+                        stroke-linejoin="round"
+                        d="M70,10 C77,10 86,38 92,43 C98,48 127,48 129,55 C131,62 108,80 106,87 C104,94 114,122 108,126 C102,130 78,113 70,113 C62,113 38,130 32,126 C26,122 36,94 34,87 C32,80 9,62 11,55 C13,48 42,48 48,43 C54,38 63,10 70,10 Z"
+                    />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Layer 7: Foreground Fluffy Clouds (faster parallax) -->
+        <!-- TODO(asset): Replace foreground SVG clouds with painted foreground cloud layer (assets/clouds-near.png) -->
+        <div class="parallax-layer layer-clouds-near" data-parallax-layer="nearClouds">
+            <div class="cloud-puff cloud-puff-1">
+                <svg class="placeholder-svg" viewBox="0 0 320 140">
+                    <g fill="rgba(255, 253, 249, 0.88)">
+                        <ellipse cx="88" cy="88" rx="68" ry="38" />
+                        <ellipse cx="160" cy="68" rx="74" ry="48" />
+                        <ellipse cx="236" cy="90" rx="64" ry="36" />
+                    </g>
+                </svg>
+            </div>
+            <div class="cloud-puff cloud-puff-2">
+                <svg class="placeholder-svg" viewBox="0 0 360 150">
+                    <g fill="rgba(255, 253, 249, 0.84)">
+                        <ellipse cx="100" cy="94" rx="78" ry="40" />
+                        <ellipse cx="185" cy="70" rx="80" ry="52" />
+                        <ellipse cx="270" cy="96" rx="70" ry="38" />
+                    </g>
+                </svg>
+            </div>
+            <div class="cloud-puff cloud-puff-3">
+                <svg class="placeholder-svg" viewBox="0 0 300 135">
+                    <g fill="rgba(253, 238, 244, 0.9)">
+                        <ellipse cx="84" cy="84" rx="64" ry="34" />
+                        <ellipse cx="152" cy="64" rx="68" ry="45" />
+                        <ellipse cx="222" cy="86" rx="60" ry="33" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Layer 8: Foreground Star Sparkles (fastest parallax) -->
+        <!-- TODO(asset): Optional foreground sparkle overlay (assets/stars-near.png) via config.js -->
+        <div id="starfield-near" class="parallax-layer layer-stars-near" data-parallax-layer="foregroundStars"></div>
+
+        <!-- Layer 9: Traveler Character Sprite Slot -->
+        <!-- TODO(asset): Replace geometric pink puffball placeholder with custom character sprite (assets/kirby-float.png) -->
+        <div class="parallax-layer layer-kirby-sprite" data-parallax-layer="kirbySprite">
+            <div id="kirby-traveler" class="kirby-placeholder-wrap">
+                <img class="asset-slot-img" data-asset-slot="kirbySprite" alt="" hidden />
+                <svg class="placeholder-svg kirby-placeholder-svg" viewBox="0 0 120 120">
+                    <!-- Feet placeholders -->
+                    <ellipse cx="42" cy="98" rx="18" ry="11" fill="#e63966" transform="rotate(-12 42 98)" />
+                    <ellipse cx="78" cy="98" rx="18" ry="11" fill="#e63966" transform="rotate(12 78 98)" />
+                    <!-- Arms placeholders -->
+                    <ellipse cx="22" cy="56" rx="14" ry="11" fill="#ff8fb1" transform="rotate(-28 22 56)" />
+                    <ellipse cx="98" cy="52" rx="14" ry="11" fill="#ff8fb1" transform="rotate(24 98 52)" />
+                    <!-- Round body placeholder -->
+                    <circle cx="60" cy="60" r="38" fill="#ff9ebb" stroke="#ffffff" stroke-width="3" />
+                    <!-- Rosy cheeks -->
+                    <ellipse cx="39" cy="62" rx="7" ry="4" fill="#ff477e" opacity="0.75" />
+                    <ellipse cx="81" cy="62" rx="7" ry="4" fill="#ff477e" opacity="0.75" />
+                    <!-- Expressive eyes -->
+                    <ellipse cx="50" cy="50" rx="3.5" ry="9" fill="#2b1d38" />
+                    <ellipse cx="50" cy="46" rx="2" ry="3.5" fill="#ffffff" />
+                    <ellipse cx="70" cy="50" rx="3.5" ry="9" fill="#2b1d38" />
+                    <ellipse cx="70" cy="46" rx="2" ry="3.5" fill="#ffffff" />
+                    <!-- Happy smile -->
+                    <path d="M55,63 Q60,69 65,63" fill="none" stroke="#2b1d38" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </div>
+        </div>
+    </div>
 
     <!-- Scrollable foreground content container -->
     <main id="dreamland-world" class="dreamland-world">

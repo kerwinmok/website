@@ -162,3 +162,166 @@ h2 {
     font-weight: 700;
     box-shadow: 0 4px 12px rgba(255, 183, 3, 0.3);
 }
+
+/* Parallax layer stack (transform and opacity only for 60fps compositing) */
+.parallax-layer {
+    position: absolute;
+    inset: 0;
+    height: 180vh;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+
+.layer-world-bg {
+    height: 220vh;
+}
+
+/* TODO(asset): Replaced when assets.worldBg is enabled in config.js */
+.sky-gradient-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        var(--sky-top) 0%,
+        var(--sky-upper) 26%,
+        var(--sky-mid) 54%,
+        var(--sky-lower) 80%,
+        var(--sky-horizon) 100%
+    );
+}
+
+.sky-aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(42px);
+    opacity: 0.45;
+}
+
+.sky-aurora-top {
+    top: 8%;
+    left: 12%;
+    width: 44vw;
+    height: 28vh;
+    background: radial-gradient(circle, var(--kirby-pink) 0%, transparent 70%);
+}
+
+.sky-aurora-mid {
+    top: 42%;
+    right: 8%;
+    width: 48vw;
+    height: 32vh;
+    background: radial-gradient(circle, var(--star-yellow) 0%, transparent 72%);
+}
+
+.sky-horizon-glow {
+    position: absolute;
+    inset: auto 0 0;
+    height: 36vh;
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 246, 204, 0.65) 100%);
+}
+
+/* Distant and foreground cloud layers */
+.cloud-band {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 26vh;
+}
+
+.cloud-band-upper {
+    top: 22vh;
+}
+
+.cloud-cluster {
+    position: absolute;
+    width: clamp(220px, 32vw, 420px);
+}
+
+.cloud-cluster-far-left {
+    top: 48vh;
+    left: 4vw;
+}
+
+.cloud-cluster-far-right {
+    top: 86vh;
+    right: 6vw;
+}
+
+.floating-isle {
+    position: absolute;
+    width: clamp(240px, 34vw, 440px);
+    filter: drop-shadow(0 18px 28px rgba(43, 29, 56, 0.16));
+}
+
+.isle-left {
+    top: 68vh;
+    left: -2vw;
+}
+
+.isle-right {
+    top: 118vh;
+    right: -2vw;
+}
+
+.cloud-puff {
+    position: absolute;
+    width: clamp(200px, 26vw, 350px);
+    filter: drop-shadow(0 10px 20px rgba(255, 143, 177, 0.2));
+}
+
+.cloud-puff-1 {
+    top: 34vh;
+    right: 10vw;
+}
+
+.cloud-puff-2 {
+    top: 92vh;
+    left: 8vw;
+}
+
+.cloud-puff-3 {
+    top: 142vh;
+    right: 14vw;
+}
+
+/* Warp Star and Kirby Traveler sprites */
+.warp-star-badge {
+    position: absolute;
+    top: 24vh;
+    right: 14vw;
+    width: clamp(78px, 9vw, 124px);
+    height: clamp(78px, 9vw, 124px);
+    filter: drop-shadow(0 0 18px rgba(255, 224, 102, 0.72));
+    will-change: transform;
+}
+
+.kirby-placeholder-wrap {
+    position: absolute;
+    top: 18vh;
+    left: 9vw;
+    width: clamp(72px, 8.5vw, 112px);
+    height: clamp(72px, 8.5vw, 112px);
+    filter: drop-shadow(0 12px 20px rgba(43, 29, 56, 0.22));
+    will-change: transform;
+}
+
+.placeholder-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.asset-slot-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.has-real-asset > .placeholder-svg,
+.has-real-asset > .sky-gradient-placeholder {
+    display: none;
+}
+
