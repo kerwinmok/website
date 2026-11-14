@@ -176,11 +176,173 @@
 
     <!-- Scrollable foreground content container -->
     <main id="dreamland-world" class="dreamland-world">
-        <section id="sky-gate" class="section stage-section">
+        <!-- Hero Stage: Sky Gate -->
+        <section id="sky-gate" class="section stage-section hero-stage">
             <div class="stage-container">
-                <p class="kicker">return to dream land prototype</p>
-                <h1>Traveling through the Dream Land sky.</h1>
-                <p>Placeholder skeleton ready for custom art assets and scroll-driven parallax layers.</p>
+                <div class="dream-banner-card">
+                    <div class="stage-meta-row">
+                        <p class="kicker">stage 00 &middot; popstar sky gate</p>
+                        <span id="sky-altitude-pill" class="altitude-pill">altitude: 100% starlight</span>
+                    </div>
+                    <!-- TODO(asset): Replace SVG star emblem with title crest asset (assets/title-crest.png) -->
+                    <div class="hero-crest-slot" data-asset-container="titleCrest">
+                        <img class="asset-slot-img" data-asset-slot="titleCrest" alt="" hidden />
+                        <svg class="placeholder-svg crest-svg" viewBox="0 0 64 64" aria-hidden="true">
+                            <polygon
+                                fill="#ffe066"
+                                stroke="#ff5d8f"
+                                stroke-width="3"
+                                stroke-linejoin="round"
+                                points="32,4 40,21 59,24 45,37 48,56 32,47 16,56 19,37 5,24 24,21"
+                            />
+                        </svg>
+                    </div>
+                    <h1>Return to Dream Land Sky Prototype.</h1>
+                    <p class="hero-lead">
+                        A vertical scroll-driven world themed after soft Popstar skies, fluffy pastel clouds,
+                        and starry horizons. Scroll downward to descend from deep starlight into the warm
+                        golden clouds of Dream Land.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#cookie-clouds" class="dream-btn is-primary">begin sky descent</a>
+                        <a href="#star-quests" class="dream-btn is-secondary">view stage cards</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Placeholder Content Section 1: Cookie Clouds (About / Copy Abilities) -->
+        <section id="cookie-clouds" class="section stage-section">
+            <div class="stage-container">
+                <div class="dream-section-shell">
+                    <p class="kicker">stage 01 &middot; cookie clouds</p>
+                    <h2>Soft clouds &amp; copy abilities.</h2>
+                    <p class="section-intro">
+                        Placeholder content section demonstrating how biographical copy and rounded skill badges
+                        sit cleanly over the mid-altitude cloud and star parallax layers.
+                    </p>
+                    <div class="dream-card-grid">
+                        <article class="dream-card">
+                            <!-- TODO(asset): Replace ability badge SVG with assets/icon-star-rod.png -->
+                            <div class="card-badge" aria-hidden="true">&#9733;</div>
+                            <h3>systems &amp; backend</h3>
+                            <p>
+                                Placeholder card for systems engineering, distributed services, and low-latency
+                                tooling built with clean architecture.
+                            </p>
+                        </article>
+                        <article class="dream-card">
+                            <!-- TODO(asset): Replace ability badge SVG with assets/icon-warp-wing.png -->
+                            <div class="card-badge" aria-hidden="true">&#9729;</div>
+                            <h3>interactive interfaces</h3>
+                            <p>
+                                Placeholder card for 60fps scroll choreography, compositor-friendly animations,
+                                and accessible web experiences.
+                            </p>
+                        </article>
+                        <article class="dream-card">
+                            <!-- TODO(asset): Replace ability badge SVG with assets/icon-maxim-tomato.png -->
+                            <div class="card-badge" aria-hidden="true">&#10022;</div>
+                            <h3>creative tinkering</h3>
+                            <p>
+                                Placeholder card for game-inspired UI prototypes, photography, and weekend
+                                hardware experiments.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Placeholder Content Section 2: Star Quests (Projects Showcase) -->
+        <section id="star-quests" class="section stage-section">
+            <div class="stage-container">
+                <div class="dream-section-shell">
+                    <p class="kicker">stage 02 &middot; star quests</p>
+                    <h2>Featured quests in the sky.</h2>
+                    <p class="section-intro">
+                        Placeholder project cards floating past the Dream Land hills and Warp Star path.
+                        Swap these slots with real portfolio projects or interactive stage previews.
+                    </p>
+                    <div class="dream-card-grid">
+                        <article class="dream-card is-project">
+                            <!-- TODO(asset): Replace .project-thumb-placeholder with project screenshot or stage frame (assets/card-frame.png) -->
+                            <div class="project-thumb-placeholder thumb-pink">
+                                <span>stage preview 01</span>
+                            </div>
+                            <h3>lor starcutter nav</h3>
+                            <p>
+                                Placeholder project description showing how multi-line text, tags, and action
+                                links read against the translucent pastel card surface.
+                            </p>
+                            <span class="dream-tag">typescript &middot; webgl</span>
+                        </article>
+                        <article class="dream-card is-project">
+                            <!-- TODO(asset): Replace .project-thumb-placeholder with project screenshot or stage frame (assets/card-frame.png) -->
+                            <div class="project-thumb-placeholder thumb-gold">
+                                <span>stage preview 02</span>
+                            </div>
+                            <h3>popstar weather engine</h3>
+                            <p>
+                                Placeholder project description testing card contrast as the background shifts
+                                from lavender twilight into warm pink clouds.
+                            </p>
+                            <span class="dream-tag">java &middot; httpserver</span>
+                        </article>
+                        <article class="dream-card is-project">
+                            <!-- TODO(asset): Replace .project-thumb-placeholder with project screenshot or stage frame (assets/card-frame.png) -->
+                            <div class="project-thumb-placeholder thumb-berry">
+                                <span>stage preview 03</span>
+                            </div>
+                            <h3>warp star telemetry</h3>
+                            <p>
+                                Placeholder project description verifying responsive 3-column to 1-column
+                                reflow on mobile and ultrawide viewports.
+                            </p>
+                            <span class="dream-tag">python &middot; tooling</span>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Placeholder Content Section 3: Halcandra Horizon (Experience / Timeline & Return Dock) -->
+        <section id="halcandra-horizon" class="section stage-section">
+            <div class="stage-container">
+                <div class="dream-section-shell">
+                    <p class="kicker">stage 03 &middot; golden horizon</p>
+                    <h2>Travel log &amp; horizon dock.</h2>
+                    <p class="section-intro">
+                        Final placeholder section anchored near the warm yellow Dream Land horizon, demonstrating
+                        vertical milestone cards and a quick return to the top of the sky.
+                    </p>
+                    <ol class="dream-timeline">
+                        <li>
+                            <div class="timeline-row">
+                                <strong>checkpoint alpha &middot; upper starfield</strong>
+                                <span>altitude 3000m</span>
+                            </div>
+                            <p>Far and mid star layers drift slowly to establish deep space parallax depth.</p>
+                        </li>
+                        <li>
+                            <div class="timeline-row">
+                                <strong>checkpoint beta &middot; pastel cloud sea</strong>
+                                <span>altitude 1500m</span>
+                            </div>
+                            <p>Layered SVG cloud banks and floating hills pass at intermediate scroll speeds.</p>
+                        </li>
+                        <li>
+                            <div class="timeline-row">
+                                <strong>checkpoint gamma &middot; dream land landing</strong>
+                                <span>altitude 0m</span>
+                            </div>
+                            <p>Foreground clouds and warm golden horizon glow frame the bottom stage dock.</p>
+                        </li>
+                    </ol>
+                    <div class="horizon-footer">
+                        <a href="#sky-gate" class="dream-btn is-primary">ride warp star to top</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
