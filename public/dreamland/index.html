@@ -223,8 +223,8 @@
                     </p>
                     <div class="dream-card-grid">
                         <article class="dream-card">
-                            <!-- TODO(asset): Replace ability badge SVG with assets/icon-star-rod.png -->
-                            <div class="card-badge" aria-hidden="true">&#9733;</div>
+                            <!-- TODO(asset): Replace ability badge with assets/icon-star-rod.png via config.js -->
+                            <div class="card-badge" data-ability-slot="systems" aria-hidden="true">&#9733;</div>
                             <h3>systems &amp; backend</h3>
                             <p>
                                 Placeholder card for systems engineering, distributed services, and low-latency
@@ -232,8 +232,8 @@
                             </p>
                         </article>
                         <article class="dream-card">
-                            <!-- TODO(asset): Replace ability badge SVG with assets/icon-warp-wing.png -->
-                            <div class="card-badge" aria-hidden="true">&#9729;</div>
+                            <!-- TODO(asset): Replace ability badge with assets/icon-warp-wing.png via config.js -->
+                            <div class="card-badge" data-ability-slot="interfaces" aria-hidden="true">&#9729;</div>
                             <h3>interactive interfaces</h3>
                             <p>
                                 Placeholder card for 60fps scroll choreography, compositor-friendly animations,
@@ -241,8 +241,8 @@
                             </p>
                         </article>
                         <article class="dream-card">
-                            <!-- TODO(asset): Replace ability badge SVG with assets/icon-maxim-tomato.png -->
-                            <div class="card-badge" aria-hidden="true">&#10022;</div>
+                            <!-- TODO(asset): Replace ability badge with assets/icon-maxim-tomato.png via config.js -->
+                            <div class="card-badge" data-ability-slot="tinkering" aria-hidden="true">&#10022;</div>
                             <h3>creative tinkering</h3>
                             <p>
                                 Placeholder card for game-inspired UI prototypes, photography, and weekend
@@ -266,8 +266,8 @@
                     </p>
                     <div class="dream-card-grid">
                         <article class="dream-card is-project">
-                            <!-- TODO(asset): Replace .project-thumb-placeholder with project screenshot or stage frame (assets/card-frame.png) -->
-                            <div class="project-thumb-placeholder thumb-pink">
+                            <!-- TODO(asset): Replace .project-thumb-placeholder with assets/stage-preview-01.png via config.js -->
+                            <div class="project-thumb-placeholder thumb-pink" data-preview-slot="preview01">
                                 <span>stage preview 01</span>
                             </div>
                             <h3>lor starcutter nav</h3>
@@ -278,8 +278,8 @@
                             <span class="dream-tag">typescript &middot; webgl</span>
                         </article>
                         <article class="dream-card is-project">
-                            <!-- TODO(asset): Replace .project-thumb-placeholder with project screenshot or stage frame (assets/card-frame.png) -->
-                            <div class="project-thumb-placeholder thumb-gold">
+                            <!-- TODO(asset): Replace .project-thumb-placeholder with assets/stage-preview-02.png via config.js -->
+                            <div class="project-thumb-placeholder thumb-gold" data-preview-slot="preview02">
                                 <span>stage preview 02</span>
                             </div>
                             <h3>popstar weather engine</h3>
@@ -290,8 +290,8 @@
                             <span class="dream-tag">java &middot; httpserver</span>
                         </article>
                         <article class="dream-card is-project">
-                            <!-- TODO(asset): Replace .project-thumb-placeholder with project screenshot or stage frame (assets/card-frame.png) -->
-                            <div class="project-thumb-placeholder thumb-berry">
+                            <!-- TODO(asset): Replace .project-thumb-placeholder with assets/stage-preview-03.png via config.js -->
+                            <div class="project-thumb-placeholder thumb-berry" data-preview-slot="preview03">
                                 <span>stage preview 03</span>
                             </div>
                             <h3>warp star telemetry</h3>
@@ -347,6 +347,7 @@
         </section>
     </main>
 
+    <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
