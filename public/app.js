@@ -1,3 +1,4 @@
+// grab page sections, nav links, and project/photo elements once
 const sections = Array.from(document.querySelectorAll('.section'));
 const navLinks = Array.from(document.querySelectorAll('.top-nav a'));
 const revealItems = Array.from(document.querySelectorAll('.reveal'));
@@ -18,13 +19,14 @@ let showAllProjects = false;
 document.documentElement.classList.remove('no-js');
 document.documentElement.classList.add('js');
 
+// photos i show in the gallery at the bottom
 const photoFiles = [
     'gsx250r-road.jpg',
     'gsx250r-cat-1.jpg',
     'gsx250r-cat-2.jpg'
 ];
 
-
+// highlight whichever section i am currently scrolled to
 function setCurrentSection(sectionId) {
     navLinks.forEach((link) => {
         const isCurrent = link.getAttribute('href') === `#${sectionId}`;
@@ -38,6 +40,7 @@ function setCurrentSection(sectionId) {
     });
 }
 
+// update the url hash without polluting browser back history
 function syncUrlHash(sectionId) {
     const nextHash = `#${sectionId}`;
 
@@ -48,6 +51,7 @@ function syncUrlHash(sectionId) {
     history.replaceState(null, '', nextHash);
 }
 
+// build a clickable card for one gallery photo
 function createAlbumItem(fileName) {
     const item = document.createElement('figure');
     item.className = 'album-item';
@@ -70,6 +74,7 @@ function createAlbumItem(fileName) {
     return item;
 }
 
+// open the full-screen photo viewer
 function openLightbox(src, altText) {
     if (!photoLightbox || !lightboxImg) {
         return;
@@ -82,6 +87,7 @@ function openLightbox(src, altText) {
     document.body.style.overflow = 'hidden';
 }
 
+// close the photo viewer and unlock page scrolling
 function closeLightbox() {
     if (!photoLightbox || !lightboxImg) {
         return;
@@ -103,6 +109,7 @@ function renderPhotoAlbum() {
     });
 }
 
+// fall back to a plain hero background if the main photo fails to load
 function applyHeroFallbackIfMissing() {
     const heroImage = new Image();
     heroImage.onload = () => {
@@ -114,6 +121,7 @@ function applyHeroFallbackIfMissing() {
     heroImage.src = 'assets/photos/AboutMe.jpg';
 }
 
+// find the section closest to the upper viewport marker
 function updateCurrentSectionByScroll() {
     if (!sections.length) {
         return;
@@ -140,6 +148,7 @@ function updateCurrentSectionByScroll() {
 
 let isTicking = false;
 
+// throttle nav highlight updates to animation frames while scrolling
 function requestSectionUpdate() {
     if (isTicking) {
         return;
@@ -152,7 +161,12 @@ function requestSectionUpdate() {
     });
 }
 
+// collapse extra project cards on mobile until i tap view more
 function updateProjectList() {
+    if (!projectMore) {
+        return;
+    }
+
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const canCollapse = projectCards.length > 3;
 
@@ -172,16 +186,51 @@ function updateProjectList() {
     }
 }
 
-projectMore.addEventListener('click', () => {
-    showAllProjects = !showAllProjects;
-    updateProjectList();
+if (projectMore) {
+    projectMore.addEventListener('click', () => {
+        showAllProjects = !showAllProjects;
+        updateProjectList();
 
-    if (!showAllProjects) {
-        projectSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!showAllProjects && projectSection) {
+            scrollToSectionElement(projectSection);
+        }
+    });
+}
+
+let smoothScrollToY = null;
+
+// scroll smoothly to any section using my custom momentum loop when active
+function scrollToSectionElement(sectionEl) {
+    if (!sectionEl) {
+        return;
     }
-});
 
-// smooth wheel scroll with momentum coasting for desktop mice and trackpads
+    if (smoothScrollToY) {
+        let scrollMargin = 0;
+
+        if (sectionEl.id !== 'about') {
+            if (typeof window.getComputedStyle === 'function') {
+                const computedStyle = window.getComputedStyle(sectionEl);
+                const parsedMargin = parseFloat(computedStyle.scrollMarginTop);
+                if (!Number.isNaN(parsedMargin)) {
+                    scrollMargin = parsedMargin;
+                } else {
+                    scrollMargin = 83;
+                }
+            } else {
+                scrollMargin = 83;
+            }
+        }
+
+        const nextY = window.scrollY + sectionEl.getBoundingClientRect().top - scrollMargin;
+        smoothScrollToY(nextY);
+        return;
+    }
+
+    sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// smooth wheel and keyboard scroll with momentum coasting for desktop browsers
 function enableFloatyWheelScroll() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -271,6 +320,16 @@ function enableFloatyWheelScroll() {
         animationId = 0;
     }
 
+    smoothScrollToY = (nextY) => {
+        velocityY = 0;
+        targetY = clampTarget(nextY);
+
+        if (targetY !== currentY && !animationId) {
+            lastFrameTime = performance.now();
+            animationId = requestAnimationFrame(animateScroll);
+        }
+    };
+
     window.addEventListener(
         'wheel',
         (event) => {
@@ -315,6 +374,74 @@ function enableFloatyWheelScroll() {
         { passive: false }
     );
 
+    // route keyboard scrolling through the same glide loop
+    window.addEventListener('keydown', (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey) {
+            return;
+        }
+
+        if (photoLightbox && !photoLightbox.hidden) {
+            return;
+        }
+
+        let activeTag = '';
+        if (document.activeElement && document.activeElement.tagName) {
+            activeTag = document.activeElement.tagName.toLowerCase();
+        }
+
+        if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (document.activeElement && document.activeElement.isContentEditable)) {
+            return;
+        }
+
+        if (event.key === 'Home') {
+            event.preventDefault();
+            smoothScrollToY(0);
+            return;
+        }
+
+        if (event.key === 'End') {
+            event.preventDefault();
+            smoothScrollToY(getMaxScroll());
+            return;
+        }
+
+        let keyDelta = 0;
+        if (event.key === 'ArrowDown') {
+            keyDelta = 95;
+        } else if (event.key === 'ArrowUp') {
+            keyDelta = -95;
+        } else if (event.key === 'PageDown') {
+            keyDelta = window.innerHeight * 0.85;
+        } else if (event.key === 'PageUp') {
+            keyDelta = -window.innerHeight * 0.85;
+        } else if (event.key === ' ') {
+            if (activeTag === 'button' || activeTag === 'a') {
+                return;
+            }
+            if (event.shiftKey) {
+                keyDelta = -window.innerHeight * 0.85;
+            } else {
+                keyDelta = window.innerHeight * 0.85;
+            }
+        } else {
+            return;
+        }
+
+        event.preventDefault();
+        if ((keyDelta > 0 && targetY < currentY - 2) || (keyDelta < 0 && targetY > currentY + 2)) {
+            targetY = currentY;
+            velocityY = 0;
+        }
+
+        targetY = clampTarget(targetY + keyDelta);
+        velocityY = Math.min(Math.max(velocityY + keyDelta * 0.16, -maxVelocity), maxVelocity);
+
+        if (!animationId) {
+            lastFrameTime = performance.now();
+            animationId = requestAnimationFrame(animateScroll);
+        }
+    });
+
     window.addEventListener(
         'scroll',
         () => {
@@ -328,6 +455,26 @@ function enableFloatyWheelScroll() {
     );
 }
 
+// route top nav anchor clicks through smooth scrolling
+navLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+        const href = link.getAttribute('href') || '';
+        if (!href.startsWith('#')) {
+            return;
+        }
+
+        const targetSection = document.getElementById(href.slice(1));
+        if (!targetSection) {
+            return;
+        }
+
+        event.preventDefault();
+        scrollToSectionElement(targetSection);
+        syncUrlHash(targetSection.id);
+    });
+});
+
+// fade sections in as they enter the screen
 const revealObserver = new IntersectionObserver(
     (entries, observer) => {
         entries.forEach((entry) => {
@@ -355,6 +502,7 @@ window.addEventListener('resize', () => {
 });
 enableFloatyWheelScroll();
 
+// highlight whatever section the initial url hash points to
 const initialSectionId = (window.location.hash || '').replace('#', '');
 const hasInitialSection = sections.some((section) => section.id === initialSectionId);
 
@@ -391,6 +539,7 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
+// format years and months old between two dates
 function formatAgeInYearsAndMonths(birthDate, targetDate) {
     let years = targetDate.getFullYear() - birthDate.getFullYear();
     let months = targetDate.getMonth() - birthDate.getMonth();
@@ -407,6 +556,7 @@ function formatAgeInYearsAndMonths(birthDate, targetDate) {
     return `${years} yrs ${months} mos old`;
 }
 
+// update my age tooltips on the timeline endpoints
 function updateTimelineAgeTooltips() {
     const birthDate = new Date(2006, 11, 21);
     const startWorkDate = new Date(2021, 7, 30);
