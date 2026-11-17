@@ -181,6 +181,7 @@ projectMore.addEventListener('click', () => {
     }
 });
 
+// smooth wheel scroll with momentum coasting for desktop mice and trackpads
 function enableFloatyWheelScroll() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -189,6 +190,9 @@ function enableFloatyWheelScroll() {
         return;
     }
 
+    // turn off native css smooth scroll so each animation frame doesn't restart a transition
+    document.documentElement.classList.add('has-smooth-scroll');
+
     let targetY = window.scrollY;
     let currentY = window.scrollY;
     let animationId = 0;
@@ -196,6 +200,19 @@ function enableFloatyWheelScroll() {
     const easing = 0.12;
     const intensity = 0.9;
     const stopThreshold = 0.45;
+
+    // convert line/page wheel units into pixels and cap huge trackpad spikes
+    function normalizeWheelDelta(event) {
+        let delta = event.deltaY;
+
+        if (event.deltaMode === 1) {
+            delta *= 40;
+        } else if (event.deltaMode === 2) {
+            delta *= window.innerHeight * 0.85;
+        }
+
+        return Math.min(Math.max(delta, -240), 240);
+    }
 
     function clampTarget(nextValue) {
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -231,7 +248,8 @@ function enableFloatyWheelScroll() {
             }
 
             event.preventDefault();
-            targetY = clampTarget(targetY + event.deltaY * intensity);
+            const delta = normalizeWheelDelta(event);
+            targetY = clampTarget(targetY + delta * intensity);
 
             if (!animationId) {
                 animationId = requestAnimationFrame(animateScroll);
