@@ -195,11 +195,18 @@ function enableFloatyWheelScroll() {
 
     let targetY = window.scrollY;
     let currentY = window.scrollY;
+    let velocityY = 0;
+    let lastWheelTime = 0;
+    let lastFrameTime = 0;
     let animationId = 0;
 
-    const easing = 0.12;
-    const intensity = 0.9;
-    const stopThreshold = 0.45;
+    // tuned so wheel stops glide slightly before settling
+    const baseEasing = 0.085;
+    const velocityFriction = 0.88;
+    const wheelIntensity = 1.05;
+    const velocityImpulse = 0.28;
+    const maxVelocity = 140;
+    const stopThreshold = 0.08;
 
     // convert line/page wheel units into pixels and cap huge trackpad spikes
     function normalizeWheelDelta(event) {
@@ -214,25 +221,53 @@ function enableFloatyWheelScroll() {
         return Math.min(Math.max(delta, -240), 240);
     }
 
-    function clampTarget(nextValue) {
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        return Math.min(Math.max(nextValue, 0), Math.max(maxScroll, 0));
+    function getMaxScroll() {
+        return Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
     }
 
-    function animateScroll() {
-        currentY += (targetY - currentY) * easing;
+    function clampTarget(nextValue) {
+        return Math.min(Math.max(nextValue, 0), getMaxScroll());
+    }
 
-        if (Math.abs(targetY - currentY) <= stopThreshold) {
+    function animateScroll(now) {
+        if (!lastFrameTime) {
+            lastFrameTime = now;
+        }
+
+        // keep the same glide feel on 60hz and 120hz+ displays
+        const elapsed = Math.min(Math.max((now - lastFrameTime) / 16.667, 0.25), 3.0);
+        lastFrameTime = now;
+
+        // bleed remaining wheel velocity into the target so stopping slows down naturally
+        if (Math.abs(velocityY) > stopThreshold) {
+            const maxScroll = getMaxScroll();
+            const nextTarget = clampTarget(targetY + velocityY * elapsed);
+
+            if ((nextTarget <= 0 && velocityY < 0) || (nextTarget >= maxScroll && velocityY > 0)) {
+                velocityY *= 0.4;
+            }
+
+            targetY = nextTarget;
+            velocityY *= Math.pow(velocityFriction, elapsed);
+        }
+
+        const easeStep = 1 - Math.pow(1 - baseEasing, elapsed);
+        currentY += (targetY - currentY) * easeStep;
+
+        if (Math.abs(targetY - currentY) <= stopThreshold && Math.abs(velocityY) <= stopThreshold) {
             currentY = targetY;
+            velocityY = 0;
         }
 
         window.scrollTo(0, currentY);
 
-        if (currentY !== targetY) {
+        if (currentY !== targetY || Math.abs(velocityY) > stopThreshold) {
             animationId = requestAnimationFrame(animateScroll);
             return;
         }
 
+        velocityY = 0;
+        lastFrameTime = 0;
         animationId = 0;
     }
 
@@ -249,9 +284,31 @@ function enableFloatyWheelScroll() {
 
             event.preventDefault();
             const delta = normalizeWheelDelta(event);
-            targetY = clampTarget(targetY + delta * intensity);
+            if (delta === 0) {
+                return;
+            }
+
+            const now = performance.now();
+
+            // drop old coasting velocity right away if i reverse direction
+            if ((delta > 0 && targetY < currentY - 2) || (delta < 0 && targetY > currentY + 2)) {
+                targetY = currentY;
+                velocityY = 0;
+            }
+
+            const wheelGap = now - lastWheelTime;
+            lastWheelTime = now;
+
+            let boost = 1.0;
+            if (wheelGap > 0 && wheelGap < 140) {
+                boost = 1.2;
+            }
+
+            targetY = clampTarget(targetY + delta * wheelIntensity * boost);
+            velocityY = Math.min(Math.max(velocityY + delta * velocityImpulse * boost, -maxVelocity), maxVelocity);
 
             if (!animationId) {
+                lastFrameTime = now;
                 animationId = requestAnimationFrame(animateScroll);
             }
         },
@@ -264,6 +321,7 @@ function enableFloatyWheelScroll() {
             if (!animationId) {
                 currentY = window.scrollY;
                 targetY = currentY;
+                velocityY = 0;
             }
         },
         { passive: true }
