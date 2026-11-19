@@ -24,6 +24,25 @@ let isResizeTicking = false;
 let lastActiveSectionId = '';
 let isReducedMotion = reducedMotionQuery.matches;
 
+// read a numeric setting from config without losing valid zero values
+function readNumericOption(source, key, fallbackValue) {
+    if (source && typeof source[key] === 'number' && !Number.isNaN(source[key])) {
+        return source[key];
+    }
+    return fallbackValue;
+}
+
+// pick the sky zone label based on how far down the page i scrolled
+function getAltitudeZoneLabel(progress) {
+    if (progress < 0.33) {
+        return 'starlight';
+    }
+    if (progress < 0.72) {
+        return 'cloud sea';
+    }
+    return 'golden horizon';
+}
+
 function applyThemeConfig() {
     const rootStyle = document.documentElement.style;
 
@@ -147,7 +166,11 @@ function createStarElement(rng, layerRule, palette) {
     const baseOpacity = (0.45 + rng() * 0.55).toFixed(2);
     const color = palette[Math.floor(rng() * palette.length)];
 
-    star.className = isSparkle ? 'dream-star is-sparkle' : 'dream-star is-dot';
+    if (isSparkle) {
+        star.className = 'dream-star is-sparkle';
+    } else {
+        star.className = 'dream-star is-dot';
+    }
     star.style.width = `${size.toFixed(1)}px`;
     star.style.height = `${size.toFixed(1)}px`;
     star.style.left = `${xPercent.toFixed(2)}%`;
@@ -263,7 +286,7 @@ function applyParallaxTransforms(scrollY) {
 
     if (altitudePill) {
         const altitudePercent = Math.round((1 - progress) * 100);
-        const zoneLabel = progress < 0.33 ? 'starlight' : progress < 0.72 ? 'cloud sea' : 'golden horizon';
+        const zoneLabel = getAltitudeZoneLabel(progress);
         altitudePill.textContent = `altitude: ${altitudePercent}% ${zoneLabel}`;
     }
 
@@ -276,29 +299,29 @@ function applyParallaxTransforms(scrollY) {
     for (let i = 0; i < parallaxNodes.length; i += 1) {
         const node = parallaxNodes[i];
         const layerKey = node.dataset.parallaxLayer;
-        const speed = layerSpeeds[layerKey] ?? 0.2;
+        const speed = readNumericOption(layerSpeeds, layerKey, 0.2);
         const offsetY = -scrollY * speed;
 
         node.style.transform = `translate3d(0, ${offsetY.toFixed(2)}px, 0)`;
 
         if (layerKey === 'farStars') {
-            const minOpacity = motion.farStarMinOpacity ?? 0.35;
+            const minOpacity = readNumericOption(motion, 'farStarMinOpacity', 0.35);
             const starFade = Math.max(1 - progress * 0.45, minOpacity);
             node.style.opacity = starFade.toFixed(3);
         }
     }
 
     if (warpStarAnchor) {
-        const swayX = Math.sin(progress * Math.PI * 3) * (motion.warpStarSwayPx ?? 28);
-        const bobY = Math.cos(progress * Math.PI * 4) * (motion.warpStarBobPx ?? 14);
-        const tiltDeg = Math.sin(progress * Math.PI * 3) * (motion.warpStarTiltDeg ?? 12);
+        const swayX = Math.sin(progress * Math.PI * 3) * readNumericOption(motion, 'warpStarSwayPx', 28);
+        const bobY = Math.cos(progress * Math.PI * 4) * readNumericOption(motion, 'warpStarBobPx', 14);
+        const tiltDeg = Math.sin(progress * Math.PI * 3) * readNumericOption(motion, 'warpStarTiltDeg', 12);
         warpStarAnchor.style.transform = `translate3d(${swayX.toFixed(1)}px, ${bobY.toFixed(1)}px, 0) rotate(${tiltDeg.toFixed(1)}deg)`;
     }
 
     if (kirbyTraveler) {
-        const floatX = Math.cos(progress * Math.PI * 2.5) * (motion.kirbyFloatXPx ?? 18);
-        const floatY = Math.sin(progress * Math.PI * 5) * (motion.kirbyFloatYPx ?? 12);
-        const bobTilt = Math.sin(progress * Math.PI * 2.5) * (motion.kirbyTiltDeg ?? 6);
+        const floatX = Math.cos(progress * Math.PI * 2.5) * readNumericOption(motion, 'kirbyFloatXPx', 18);
+        const floatY = Math.sin(progress * Math.PI * 5) * readNumericOption(motion, 'kirbyFloatYPx', 12);
+        const bobTilt = Math.sin(progress * Math.PI * 2.5) * readNumericOption(motion, 'kirbyTiltDeg', 6);
         kirbyTraveler.style.transform = `translate3d(${floatX.toFixed(1)}px, ${floatY.toFixed(1)}px, 0) rotate(${bobTilt.toFixed(1)}deg)`;
     }
 }
