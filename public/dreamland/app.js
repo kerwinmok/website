@@ -16,6 +16,11 @@ const warpStarAnchor = document.getElementById('warp-star-anchor');
 const kirbyTraveler = document.getElementById('kirby-traveler');
 const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// asset keys grouped by layer or sprite slot
+const BG_LAYER_KEYS = ['worldBg', 'farStars', 'midStars', 'foregroundStars', 'distantClouds', 'floatingHills', 'nearClouds'];
+const STAR_LAYER_KEYS = ['farStars', 'midStars', 'foregroundStars'];
+const SPRITE_SLOT_KEYS = ['warpStar', 'kirbySprite', 'titleCrest'];
+
 let cachedMaxScroll = 1;
 let cachedViewportHeight = window.innerHeight || 1;
 let cachedSectionCenters = [];
@@ -57,15 +62,9 @@ function applyThemeConfig() {
     }
 }
 
-// Swaps CSS/SVG placeholders with real image files whenever an entry in config.assets has enabled: true.
-function bindConfiguredAssets() {
-    const assets = config.assets;
-    if (!assets) {
-        return;
-    }
-
-    const bgLayers = ['worldBg', 'farStars', 'midStars', 'foregroundStars', 'distantClouds', 'floatingHills', 'nearClouds'];
-    bgLayers.forEach((layerKey) => {
+// swap fullscreen parallax layer backgrounds when configured assets are enabled
+function bindBackgroundLayerAssets(assets) {
+    BG_LAYER_KEYS.forEach((layerKey) => {
         const entry = assets[layerKey];
         if (!entry || !entry.enabled || !entry.path) {
             return;
@@ -83,15 +82,17 @@ function bindConfiguredAssets() {
             layerNode.style.backgroundSize = entry.backgroundSize || 'cover';
             layerNode.style.backgroundRepeat = entry.backgroundRepeat || 'no-repeat';
             layerNode.style.backgroundPosition = 'center top';
-            if (layerKey === 'farStars' || layerKey === 'midStars' || layerKey === 'foregroundStars') {
+            if (STAR_LAYER_KEYS.includes(layerKey)) {
                 layerNode.replaceChildren();
             }
         };
         probe.src = entry.path;
     });
+}
 
-    const spriteSlots = ['warpStar', 'kirbySprite', 'titleCrest'];
-    spriteSlots.forEach((slotKey) => {
+// load floating sprite images when enabled in config.js
+function bindSpriteSlotAssets(assets) {
+    SPRITE_SLOT_KEYS.forEach((slotKey) => {
         const entry = assets[slotKey];
         if (!entry || !entry.enabled || !entry.path) {
             return;
@@ -109,44 +110,69 @@ function bindConfiguredAssets() {
         imgEl.alt = entry.alt || '';
         imgEl.src = entry.path;
     });
+}
 
-    if (assets.abilityIcons && assets.abilityIcons.enabled) {
-        document.querySelectorAll('[data-ability-slot]').forEach((badge) => {
-            const key = badge.dataset.abilitySlot;
-            const iconPath = assets.abilityIcons[key];
-            if (!iconPath) {
-                return;
-            }
-            const icon = new Image();
-            icon.onload = () => {
-                badge.textContent = '';
-                badge.style.backgroundImage = `url("${iconPath}")`;
-                badge.style.backgroundSize = '65%';
-                badge.style.backgroundRepeat = 'no-repeat';
-                badge.style.backgroundPosition = 'center';
-            };
-            icon.src = iconPath;
-        });
+// load ability badge icons when enabled in config.js
+function bindAbilityIconAssets(abilityIcons) {
+    if (!abilityIcons || !abilityIcons.enabled) {
+        return;
     }
 
-    if (assets.projectPreviews && assets.projectPreviews.enabled) {
-        document.querySelectorAll('[data-preview-slot]').forEach((thumb) => {
-            const key = thumb.dataset.previewSlot;
-            const previewPath = assets.projectPreviews[key];
-            if (!previewPath) {
-                return;
-            }
-            const previewImg = new Image();
-            previewImg.onload = () => {
-                thumb.textContent = '';
-                thumb.style.backgroundImage = `url("${previewPath}")`;
-                thumb.style.backgroundSize = 'cover';
-                thumb.style.backgroundPosition = 'center';
-                thumb.style.borderStyle = 'solid';
-            };
-            previewImg.src = previewPath;
-        });
+    document.querySelectorAll('[data-ability-slot]').forEach((badge) => {
+        const key = badge.dataset.abilitySlot;
+        const iconPath = abilityIcons[key];
+        if (!iconPath) {
+            return;
+        }
+
+        const icon = new Image();
+        icon.onload = () => {
+            badge.textContent = '';
+            badge.style.backgroundImage = `url("${iconPath}")`;
+            badge.style.backgroundSize = '65%';
+            badge.style.backgroundRepeat = 'no-repeat';
+            badge.style.backgroundPosition = 'center';
+        };
+        icon.src = iconPath;
+    });
+}
+
+// load project card preview thumbnails when enabled in config.js
+function bindProjectPreviewAssets(projectPreviews) {
+    if (!projectPreviews || !projectPreviews.enabled) {
+        return;
     }
+
+    document.querySelectorAll('[data-preview-slot]').forEach((thumb) => {
+        const key = thumb.dataset.previewSlot;
+        const previewPath = projectPreviews[key];
+        if (!previewPath) {
+            return;
+        }
+
+        const previewImg = new Image();
+        previewImg.onload = () => {
+            thumb.textContent = '';
+            thumb.style.backgroundImage = `url("${previewPath}")`;
+            thumb.style.backgroundSize = 'cover';
+            thumb.style.backgroundPosition = 'center';
+            thumb.style.borderStyle = 'solid';
+        };
+        previewImg.src = previewPath;
+    });
+}
+
+// swap css and svg placeholders for real art when enabled in config.js
+function bindConfiguredAssets() {
+    const assets = config.assets;
+    if (!assets) {
+        return;
+    }
+
+    bindBackgroundLayerAssets(assets);
+    bindSpriteSlotAssets(assets);
+    bindAbilityIconAssets(assets.abilityIcons);
+    bindProjectPreviewAssets(assets.projectPreviews);
 }
 
 function createSeededRandom(seedValue) {
