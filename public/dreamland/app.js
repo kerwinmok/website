@@ -305,23 +305,19 @@ function resetParallaxTransforms() {
     }
 }
 
-function applyParallaxTransforms(scrollY) {
-    const layerSpeeds = config.layerSpeeds || {};
-    const motion = config.motion || {};
-    const progress = Math.min(Math.max(scrollY / cachedMaxScroll, 0), 1);
-
-    if (altitudePill) {
-        const altitudePercent = Math.round((1 - progress) * 100);
-        const zoneLabel = getAltitudeZoneLabel(progress);
-        altitudePill.textContent = `altitude: ${altitudePercent}% ${zoneLabel}`;
-    }
-
-    updateActiveSectionFromScroll(scrollY);
-
-    if (isReducedMotion) {
+// update the sky altitude badge text as i scroll down the page
+function updateAltitudeReadout(progress) {
+    if (!altitudePill) {
         return;
     }
 
+    const altitudePercent = Math.round((1 - progress) * 100);
+    const zoneLabel = getAltitudeZoneLabel(progress);
+    altitudePill.textContent = `altitude: ${altitudePercent}% ${zoneLabel}`;
+}
+
+// shift each parallax layer by its configured speed multiplier
+function updateParallaxLayers(scrollY, progress, layerSpeeds, motion) {
     for (let i = 0; i < parallaxNodes.length; i += 1) {
         const node = parallaxNodes[i];
         const layerKey = node.dataset.parallaxLayer;
@@ -336,7 +332,10 @@ function applyParallaxTransforms(scrollY) {
             node.style.opacity = starFade.toFixed(3);
         }
     }
+}
 
+// drift and tilt the floating warp star and kirby along scroll progress
+function updateFloatingSprites(progress, motion) {
     if (warpStarAnchor) {
         const swayX = Math.sin(progress * Math.PI * 3) * readNumericOption(motion, 'warpStarSwayPx', 28);
         const bobY = Math.cos(progress * Math.PI * 4) * readNumericOption(motion, 'warpStarBobPx', 14);
@@ -350,6 +349,23 @@ function applyParallaxTransforms(scrollY) {
         const bobTilt = Math.sin(progress * Math.PI * 2.5) * readNumericOption(motion, 'kirbyTiltDeg', 6);
         kirbyTraveler.style.transform = `translate3d(${floatX.toFixed(1)}px, ${floatY.toFixed(1)}px, 0) rotate(${bobTilt.toFixed(1)}deg)`;
     }
+}
+
+// apply all scroll-linked sky, nav, layer, and sprite updates for this frame
+function applyParallaxTransforms(scrollY) {
+    const layerSpeeds = config.layerSpeeds || {};
+    const motion = config.motion || {};
+    const progress = Math.min(Math.max(scrollY / cachedMaxScroll, 0), 1);
+
+    updateAltitudeReadout(progress);
+    updateActiveSectionFromScroll(scrollY);
+
+    if (isReducedMotion) {
+        return;
+    }
+
+    updateParallaxLayers(scrollY, progress, layerSpeeds, motion);
+    updateFloatingSprites(progress, motion);
 }
 
 function requestParallaxFrame() {
